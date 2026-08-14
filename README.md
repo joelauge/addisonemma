@@ -9,6 +9,23 @@ when JavaScript is unavailable.
 
 ---
 
+## Preview
+
+A static render of this theme is hosted on GitHub Pages at
+**[addisonemma.com](https://addisonemma.com)**, so the whole storefront can be
+walked through before the Shopify store opens. It is `noindex` and
+`Disallow: /` until you announce it.
+
+```bash
+cd harness && npm install
+npm run build -- --domain addisonemma.com    # → docs/
+git add docs && git commit -m "Rebuild preview" && git push
+```
+
+The harness reads these theme files unmodified — see [harness/README.md](harness/README.md).
+
+---
+
 ## Install
 
 ```bash
