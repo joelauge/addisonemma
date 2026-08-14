@@ -29,7 +29,8 @@
         "link_label": "View the whole collection",
         "limit": 4,
         "columns": "4",
-        "padding_bottom": 112
+        "padding_bottom": 112,
+        "collection": "all"
       }
     },
     "house_code": {
@@ -44,10 +45,25 @@
     "atelier": {
       "type": "split-feature",
       "blocks": {
-        "years": { "type": "stat", "settings": { "figure": "118", "label": "years in the valley" } },
-        "tailors": { "type": "stat", "settings": { "figure": "Nine", "label": "tailors, all named" } }
+        "years": {
+          "type": "stat",
+          "settings": {
+            "figure": "118",
+            "label": "years in the valley"
+          }
+        },
+        "tailors": {
+          "type": "stat",
+          "settings": {
+            "figure": "Nine",
+            "label": "tailors, all named"
+          }
+        }
       },
-      "block_order": ["years", "tailors"],
+      "block_order": [
+        "years",
+        "tailors"
+      ],
       "settings": {
         "media_position": "left",
         "kicker": "Savoir-faire",
@@ -70,14 +86,57 @@
     "services": {
       "type": "services-strip",
       "blocks": {
-        "repairs": { "type": "service", "settings": { "kicker": "Repairs", "title": "Mended for life", "body": "Any piece, any age. Send it to the valley and we will put it right." } },
-        "fittings": { "type": "service", "settings": { "kicker": "Fittings", "title": "An hour with a fitter", "body": "In the boutique or by video. Free, and no obligation to buy." } },
-        "delivery": { "type": "service", "settings": { "kicker": "Delivery", "title": "Insured, duties paid", "body": "Complimentary worldwide, wrapped in our ribboned box by hand." } },
-        "archive": { "type": "service", "settings": { "kicker": "Archive", "title": "Ask for the archive", "body": "Past-season pieces in single sizes, held quietly for clients who ask." } }
+        "repairs": {
+          "type": "service",
+          "settings": {
+            "kicker": "Repairs",
+            "title": "Mended for life",
+            "body": "Any piece, any age. Send it to the valley and we will put it right."
+          }
+        },
+        "fittings": {
+          "type": "service",
+          "settings": {
+            "kicker": "Fittings",
+            "title": "An hour with a fitter",
+            "body": "In the boutique or by video. Free, and no obligation to buy."
+          }
+        },
+        "delivery": {
+          "type": "service",
+          "settings": {
+            "kicker": "Delivery",
+            "title": "Insured, duties paid",
+            "body": "Complimentary worldwide, wrapped in our ribboned box by hand."
+          }
+        },
+        "archive": {
+          "type": "service",
+          "settings": {
+            "kicker": "Archive",
+            "title": "Ask for the archive",
+            "body": "Past-season pieces in single sizes, held quietly for clients who ask."
+          }
+        }
       },
-      "block_order": ["repairs", "fittings", "delivery", "archive"],
-      "settings": { "background": "#E9D8D2" }
+      "block_order": [
+        "repairs",
+        "fittings",
+        "delivery",
+        "archive"
+      ],
+      "settings": {
+        "background": "#E9D8D2"
+      }
     }
   },
-  "order": ["hero", "statement", "featured", "house_code", "atelier", "journal", "services"]
+  "order": [
+    "hero",
+    "statement",
+    "featured",
+    "house_code",
+    "atelier",
+    "journal",
+    "services"
+  ]
 }

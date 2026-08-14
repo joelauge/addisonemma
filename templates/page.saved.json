@@ -1,6 +1,14 @@
 {
   "sections": {
-    "main": { "type": "wishlist", "settings": { "heading": "Saved pieces" } }
+    "main": {
+      "type": "wishlist",
+      "settings": {
+        "heading": "Saved pieces",
+        "collection": "all"
+      }
+    }
   },
-  "order": ["main"]
+  "order": [
+    "main"
+  ]
 }
