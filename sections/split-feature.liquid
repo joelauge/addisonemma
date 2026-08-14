@@ -1,4 +1,4 @@
-<section class="split {% if section.settings.media_position == 'right' %}split--reverse{% endif %}">
+<section class="split {% if section.settings.media_position == 'right' %}split--reverse{% endif %} {% if section.settings.compact_heading %}split--compact{% endif %}">
   <div class="split__media">
     {%- if section.settings.image -%}
             {%- assign img_alt = section.settings.image.alt | default: section.settings.heading | escape -%}
@@ -23,7 +23,7 @@
     {%- endif -%}
 
     {%- if section.settings.heading != blank -%}
-      <h2 class="display display--m split__title" data-reveal>{{ section.settings.heading }}</h2>
+      <h2 class="display split__title" data-reveal>{{ section.settings.heading }}</h2>
     {%- endif -%}
 
     {%- if section.settings.body != blank -%}
@@ -74,6 +74,7 @@
       "label": "t:sections.common.body",
       "default": "<p>Every outer piece leaves our workroom in the Aveyron with the initials of the two tailors who made it stitched inside the left facing. We cut from a single roll each season; when the roll is finished, the coat is finished.</p>"
     },
+    { "type": "checkbox", "id": "compact_heading", "label": "t:sections.split_feature.compact_heading", "default": false },
     { "type": "text", "id": "cta_label", "label": "t:sections.common.link_label", "default": "Inside the atelier" },
     { "type": "url", "id": "cta_link", "label": "t:sections.common.link" }
   ],

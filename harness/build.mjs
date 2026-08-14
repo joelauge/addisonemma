@@ -35,7 +35,12 @@ const CACHE = path.join(HERE, '.sources');
  */
 function normaliseSource(source) {
   return source.replace(/\{\{[\s\S]*?\}\}|\{%[\s\S]*?%\}/g, (chunk) =>
-    chunk.replace(/\b([A-Za-z_]\w*)\?/g, '$1_q')
+    // Only outside string literals. A `?` inside a quoted string is content —
+    // rewriting it turned `css2?family=` into `css2_qfamily=` in the Google
+    // Fonts URL, which 404'd and silently dropped every webface on the site.
+    chunk.replace(/'[^']*'|"[^"]*"|\b([A-Za-z_]\w*)\?/g, (match, ident) =>
+      ident ? `${ident}_q` : match
+    )
   );
 }
 

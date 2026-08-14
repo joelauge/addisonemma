@@ -33,7 +33,7 @@
       {%- endif -%}
 
       {%- if section.settings.heading != blank -%}
-        <h2 class="display display--xl hero__title">{{ section.settings.heading }}</h2>
+        <h2 class="display {{ section.settings.heading_size }} hero__title">{{ section.settings.heading }}</h2>
       {%- endif -%}
 
       {%- if section.settings.body != blank -%}
@@ -79,6 +79,16 @@
       "default": "left"
     },
     { "type": "checkbox", "id": "ken_burns", "label": "t:sections.hero.ken_burns", "default": true },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "t:sections.hero.heading_size",
+      "options": [
+        { "value": "display--xl", "label": "t:sections.hero.size_campaign" },
+        { "value": "display--maison", "label": "t:sections.hero.size_page" }
+      ],
+      "default": "display--xl"
+    },
     { "type": "text", "id": "kicker", "label": "t:sections.hero.kicker", "default": "Autumn — Winter 2026" },
     { "type": "text", "id": "heading", "label": "t:sections.hero.heading", "default": "The Long <i>Afternoon</i>" },
     { "type": "richtext", "id": "body", "label": "t:sections.hero.body" },

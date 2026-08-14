@@ -27,8 +27,7 @@
       "body": "Body face",
       "mono": "Mono face",
       "load_google": "Load these from Google Fonts",
-      "load_google_info": "Turn off if you self-host the faces or use Shopify's font library.",
-      "scale": "Type scale"
+      "load_google_info": "Turn off if you self-host the faces or use Shopify's font library."
     },
     "layout": {
       "name": "Layout",
@@ -91,7 +90,9 @@
       "suggestions": "Suggested searches",
       "suggestions_info": "Separated by commas."
     },
-    "social": { "name": "Social" },
+    "social": {
+      "name": "Social"
+    },
     "brand": {
       "name": "Brand",
       "share_image": "Sharing image",
@@ -99,12 +100,10 @@
       "established": "Line beneath the wordmark"
     }
   },
-
   "section_groups": {
     "header": "Header",
     "footer": "Footer"
   },
-
   "sections": {
     "common": {
       "heading": "Heading",
@@ -154,8 +153,12 @@
         "body": "Body"
       }
     },
-    "cart_drawer": { "name": "Bag drawer" },
-    "predictive_search": { "name": "Search results, live" },
+    "cart_drawer": {
+      "name": "Bag drawer"
+    },
+    "predictive_search": {
+      "name": "Search results, live"
+    },
     "hero": {
       "name": "Hero",
       "image": "Image",
@@ -171,7 +174,10 @@
       "heading": "Heading",
       "body": "Body",
       "cta_label": "Link label",
-      "cta_link": "Link"
+      "cta_link": "Link",
+      "heading_size": "Heading size",
+      "size_campaign": "Campaign (largest)",
+      "size_page": "Page title"
     },
     "statement": {
       "name": "Statement",
@@ -199,7 +205,8 @@
         "stat": "Figure",
         "figure": "Figure",
         "label": "Label"
-      }
+      },
+      "compact_heading": "Smaller heading"
     },
     "blog_posts": {
       "name": "Journal entries",
@@ -209,9 +216,13 @@
     },
     "services_strip": {
       "name": "Services strip",
-      "blocks": { "service": "Service" }
+      "blocks": {
+        "service": "Service"
+      }
     },
-    "newsletter": { "name": "Newsletter" },
+    "newsletter": {
+      "name": "Newsletter"
+    },
     "main_product": {
       "name": "Product",
       "blocks": {
@@ -238,9 +249,16 @@
         "custom_liquid": "Custom Liquid"
       }
     },
-    "related_products": { "name": "Worn with" },
-    "recently_viewed": { "name": "Recently viewed", "limit": "Pieces to show" },
-    "recent_results": { "name": "Recently viewed results" },
+    "related_products": {
+      "name": "Worn with"
+    },
+    "recently_viewed": {
+      "name": "Recently viewed",
+      "limit": "Pieces to show"
+    },
+    "recent_results": {
+      "name": "Recently viewed results"
+    },
     "main_collection": {
       "name": "Collection",
       "page_size": "Pieces per page",
@@ -253,18 +271,43 @@
       "tag_filters": "Show tag filters",
       "page_size": "Entries per page"
     },
-    "main_article": { "name": "Journal entry", "show_author": "Show the author" },
-    "main_search": { "name": "Search results", "page_size": "Results per page" },
-    "main_cart": { "name": "Bag", "show_note": "Show the order note" },
-    "main_page": { "name": "Page", "max_width": "Text width" },
-    "main_404": { "name": "Page not found" },
-    "main_list_collections": { "name": "Collection list" },
-    "main_password": { "name": "Password page", "newsletter_heading": "Newsletter heading" },
+    "main_article": {
+      "name": "Journal entry",
+      "show_author": "Show the author"
+    },
+    "main_search": {
+      "name": "Search results",
+      "page_size": "Results per page"
+    },
+    "main_cart": {
+      "name": "Bag",
+      "show_note": "Show the order note"
+    },
+    "main_page": {
+      "name": "Page",
+      "max_width": "Text width"
+    },
+    "main_404": {
+      "name": "Page not found"
+    },
+    "main_list_collections": {
+      "name": "Collection list"
+    },
+    "main_password": {
+      "name": "Password page",
+      "newsletter_heading": "Newsletter heading"
+    },
     "timeline": {
       "name": "Chronology",
-      "blocks": { "entry": "Entry", "year": "Year" }
+      "blocks": {
+        "entry": "Entry",
+        "year": "Year"
+      }
     },
-    "image_trio": { "name": "Image row", "caption": "Caption" },
+    "image_trio": {
+      "name": "Image row",
+      "caption": "Caption"
+    },
     "boutiques": {
       "name": "Boutiques",
       "intro": "Introduction",
@@ -285,7 +328,10 @@
       "form_submit": "Submit label",
       "boutique_options": "Boutique choices",
       "boutique_options_info": "One per line. Leave empty to hide the field.",
-      "blocks": { "service": "Service", "note": "Note" }
+      "blocks": {
+        "service": "Service",
+        "note": "Note"
+      }
     },
     "wishlist": {
       "name": "Saved pieces",
@@ -299,7 +345,9 @@
       "centred": "Centred",
       "left": "Left"
     },
-    "apps": { "name": "Apps" },
+    "apps": {
+      "name": "Apps"
+    },
     "customers": {
       "login": "Sign in",
       "register": "Create account",

@@ -13,7 +13,7 @@
     {%- if article.tags.size > 0 -%}
       <p class="kicker">{{ article.tags.first }}</p>
     {%- endif -%}
-    <h1 class="display display--l" style="margin-top: 20px; max-width: 900px;">{{ article.title }}</h1>
+    <h1 class="display display--article" style="margin-top: 20px; max-width: 900px;">{{ article.title }}</h1>
     <p class="meta-line" style="margin-top: 24px;">
       {%- if section.settings.show_author and article.author != blank -%}
         {{ 'blogs.words_by' | t: author: article.author }} &mdash;

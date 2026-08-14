@@ -46,12 +46,12 @@
         endcapture
       -%}
       {%- comment -%}
-        Loaded async via the print-media swap so the faces never block first
-        paint. Turn off "Load these from Google Fonts" in theme settings to
-        serve the faces from Shopify's CDN instead.
+        A blocking stylesheet, exactly as the source design loads it. The
+        async print-media swap that used to be here shaved a little off first
+        paint but repainted the page once the faces arrived — the type visibly
+        changed weight. Fidelity wins; `preconnect` above covers the latency.
       {%- endcomment -%}
-      <link rel="stylesheet" href="{{ google_href }}" media="print" onload="this.media='all'">
-      <noscript><link rel="stylesheet" href="{{ google_href }}"></noscript>
+      <link rel="stylesheet" href="{{ google_href }}">
     {%- endif -%}
 
     {{ 'base.css' | asset_url | stylesheet_tag: preload: true }}
