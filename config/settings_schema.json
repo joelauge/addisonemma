@@ -1,0 +1,425 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Aveyron",
+    "theme_version": "1.0.0",
+    "theme_author": "Addison Emma",
+    "theme_documentation_url": "https://shopify.dev/themes",
+    "theme_support_url": "https://shopify.dev/themes"
+  },
+  {
+    "name": "t:settings.colours.name",
+    "settings": [
+      {
+        "type": "header",
+        "content": "t:settings.colours.surfaces"
+      },
+      {
+        "type": "color",
+        "id": "colour_paper",
+        "label": "t:settings.colours.paper",
+        "default": "#F4EFE4"
+      },
+      {
+        "type": "color",
+        "id": "colour_paper_alt",
+        "label": "t:settings.colours.paper_alt",
+        "default": "#EFE8DA"
+      },
+      {
+        "type": "color",
+        "id": "colour_placeholder",
+        "label": "t:settings.colours.placeholder",
+        "default": "#E5DCC9"
+      },
+      {
+        "type": "header",
+        "content": "t:settings.colours.ink"
+      },
+      {
+        "type": "color",
+        "id": "colour_ink",
+        "label": "t:settings.colours.ink_primary",
+        "default": "#1A1815"
+      },
+      {
+        "type": "color",
+        "id": "colour_body",
+        "label": "t:settings.colours.ink_body",
+        "default": "#4C463C"
+      },
+      {
+        "type": "color",
+        "id": "colour_muted",
+        "label": "t:settings.colours.ink_muted",
+        "default": "#6B6355"
+      },
+      {
+        "type": "color",
+        "id": "colour_faint",
+        "label": "t:settings.colours.ink_faint",
+        "default": "#8B8172"
+      },
+      {
+        "type": "header",
+        "content": "t:settings.colours.accents"
+      },
+      {
+        "type": "color",
+        "id": "colour_brand",
+        "label": "t:settings.colours.brand",
+        "info": "t:settings.colours.brand_info",
+        "default": "#1F2A44"
+      },
+      {
+        "type": "color",
+        "id": "colour_brand_hover",
+        "label": "t:settings.colours.brand_hover",
+        "default": "#2B3A5C"
+      },
+      {
+        "type": "color",
+        "id": "colour_on_brand",
+        "label": "t:settings.colours.on_brand",
+        "default": "#F1EADC"
+      },
+      {
+        "type": "color",
+        "id": "colour_kicker",
+        "label": "t:settings.colours.kicker",
+        "default": "#6C7048"
+      },
+      {
+        "type": "color",
+        "id": "colour_link_hover",
+        "label": "t:settings.colours.link_hover",
+        "default": "#8C5C3D"
+      },
+      {
+        "type": "color",
+        "id": "colour_selection",
+        "label": "t:settings.colours.selection",
+        "default": "#E9D2CC"
+      }
+    ]
+  },
+  {
+    "name": "t:settings.typography.name",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "t:settings.typography.intro"
+      },
+      {
+        "type": "text",
+        "id": "font_display",
+        "label": "t:settings.typography.display",
+        "default": "Cormorant Garamond"
+      },
+      {
+        "type": "text",
+        "id": "font_body",
+        "label": "t:settings.typography.body",
+        "default": "Jost"
+      },
+      {
+        "type": "text",
+        "id": "font_mono",
+        "label": "t:settings.typography.mono",
+        "default": "IBM Plex Mono"
+      },
+      {
+        "type": "checkbox",
+        "id": "load_google_fonts",
+        "label": "t:settings.typography.load_google",
+        "info": "t:settings.typography.load_google_info",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "type_scale",
+        "min": 90,
+        "max": 115,
+        "step": 1,
+        "unit": "%",
+        "label": "t:settings.typography.scale",
+        "default": 100
+      }
+    ]
+  },
+  {
+    "name": "t:settings.layout.name",
+    "settings": [
+      {
+        "type": "range",
+        "id": "page_gutter",
+        "min": 16,
+        "max": 72,
+        "step": 2,
+        "unit": "px",
+        "label": "t:settings.layout.gutter",
+        "default": 44
+      },
+      {
+        "type": "range",
+        "id": "page_max_width",
+        "min": 1200,
+        "max": 2200,
+        "step": 20,
+        "unit": "px",
+        "label": "t:settings.layout.max_width",
+        "default": 1920
+      },
+      {
+        "type": "select",
+        "id": "corner_radius",
+        "label": "t:settings.layout.radius",
+        "options": [
+          { "value": "0px", "label": "t:settings.layout.radius_none" },
+          { "value": "2px", "label": "t:settings.layout.radius_hairline" },
+          { "value": "6px", "label": "t:settings.layout.radius_soft" }
+        ],
+        "default": "0px"
+      }
+    ]
+  },
+  {
+    "name": "t:settings.product_cards.name",
+    "settings": [
+      {
+        "type": "select",
+        "id": "card_image_ratio",
+        "label": "t:settings.product_cards.ratio",
+        "options": [
+          { "value": "3 / 4", "label": "t:settings.product_cards.ratio_portrait" },
+          { "value": "4 / 5", "label": "t:settings.product_cards.ratio_tall" },
+          { "value": "1 / 1", "label": "t:settings.product_cards.ratio_square" }
+        ],
+        "default": "3 / 4"
+      },
+      {
+        "type": "checkbox",
+        "id": "card_hover_second_image",
+        "label": "t:settings.product_cards.hover_image",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "card_show_wishlist",
+        "label": "t:settings.product_cards.wishlist",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "card_show_quick_add",
+        "label": "t:settings.product_cards.quick_add",
+        "info": "t:settings.product_cards.quick_add_info",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "card_show_vendor_line",
+        "label": "t:settings.product_cards.material_line",
+        "info": "t:settings.product_cards.material_line_info",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "t:settings.imagery.name",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "image_grade",
+        "label": "t:settings.imagery.grade",
+        "info": "t:settings.imagery.grade_info",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "image_grade_warmth",
+        "min": 0,
+        "max": 20,
+        "step": 1,
+        "unit": "%",
+        "label": "t:settings.imagery.warmth",
+        "default": 6
+      },
+      {
+        "type": "range",
+        "id": "image_grade_saturation",
+        "min": 60,
+        "max": 100,
+        "step": 2,
+        "unit": "%",
+        "label": "t:settings.imagery.saturation",
+        "default": 86
+      }
+    ]
+  },
+  {
+    "name": "t:settings.motion.name",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "t:settings.motion.intro"
+      },
+      {
+        "type": "checkbox",
+        "id": "motion_reveals",
+        "label": "t:settings.motion.reveals",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "motion_hero_kenburns",
+        "label": "t:settings.motion.kenburns",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "motion_view_transitions",
+        "label": "t:settings.motion.view_transitions",
+        "info": "t:settings.motion.view_transitions_info",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "motion_prefetch",
+        "label": "t:settings.motion.prefetch",
+        "info": "t:settings.motion.prefetch_info",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "t:settings.commerce.name",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "cart_drawer",
+        "label": "t:settings.commerce.cart_drawer",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_gift_wrap",
+        "label": "t:settings.commerce.gift_wrap",
+        "info": "t:settings.commerce.gift_wrap_info",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "cart_gift_wrap_label",
+        "label": "t:settings.commerce.gift_wrap_label",
+        "default": "Wrap in our ribboned box with a hand-written card"
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_show_delivery_estimate",
+        "label": "t:settings.commerce.delivery_estimate",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "cart_delivery_days",
+        "min": 1,
+        "max": 21,
+        "step": 1,
+        "label": "t:settings.commerce.delivery_days",
+        "default": 3
+      },
+      {
+        "type": "text",
+        "id": "shipping_note",
+        "label": "t:settings.commerce.shipping_note",
+        "default": "Complimentary, insured"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_low_stock",
+        "label": "t:settings.commerce.low_stock",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "low_stock_threshold",
+        "min": 1,
+        "max": 25,
+        "step": 1,
+        "label": "t:settings.commerce.low_stock_threshold",
+        "default": 6
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_wishlist",
+        "label": "t:settings.commerce.wishlist",
+        "info": "t:settings.commerce.wishlist_info",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "wishlist_days",
+        "min": 7,
+        "max": 120,
+        "step": 1,
+        "label": "t:settings.commerce.wishlist_days",
+        "default": 30
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_recently_viewed",
+        "label": "t:settings.commerce.recently_viewed",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "t:settings.search.name",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "predictive_search",
+        "label": "t:settings.search.predictive",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "search_suggestions",
+        "label": "t:settings.search.suggestions",
+        "info": "t:settings.search.suggestions_info",
+        "default": "Waxed cotton coats, Undyed cashmere, Silk scarves, Riding boots"
+      }
+    ]
+  },
+  {
+    "name": "t:settings.social.name",
+    "settings": [
+      { "type": "text", "id": "social_instagram", "label": "Instagram" },
+      { "type": "text", "id": "social_pinterest", "label": "Pinterest" },
+      { "type": "text", "id": "social_facebook", "label": "Facebook" },
+      { "type": "text", "id": "social_youtube", "label": "YouTube" }
+    ]
+  },
+  {
+    "name": "t:settings.brand.name",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "share_image",
+        "label": "t:settings.brand.share_image"
+      },
+      {
+        "type": "image_picker",
+        "id": "favicon_image",
+        "label": "t:settings.brand.favicon"
+      },
+      {
+        "type": "text",
+        "id": "brand_established",
+        "label": "t:settings.brand.established",
+        "default": "Maison fondée 1908"
+      }
+    ]
+  }
+]

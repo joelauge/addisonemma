@@ -1,0 +1,137 @@
+{%- comment -%}
+  Canonical, Open Graph, Twitter and JSON-LD. Everything a share sheet or a
+  crawler needs to describe the page without guessing.
+{%- endcomment -%}
+{%- liquid
+  assign og_title = page_title
+  assign og_type = 'website'
+  assign og_description = page_description | default: shop.description | default: shop.name
+
+  if request.page_type == 'product'
+    assign og_type = 'product'
+  elsif request.page_type == 'article'
+    assign og_type = 'article'
+  elsif request.page_type == 'password'
+    assign og_type = 'website'
+  endif
+-%}
+
+<meta property="og:site_name" content="{{ shop.name | escape }}">
+<meta property="og:url" content="{{ canonical_url }}">
+<meta property="og:title" content="{{ og_title | escape }}">
+<meta property="og:type" content="{{ og_type }}">
+<meta property="og:description" content="{{ og_description | escape }}">
+
+{%- if request.page_type == 'product' -%}
+  {%- assign og_image = product.featured_media.preview_image -%}
+{%- elsif request.page_type == 'article' and article.image -%}
+  {%- assign og_image = article.image -%}
+{%- elsif request.page_type == 'collection' and collection.image -%}
+  {%- assign og_image = collection.image -%}
+{%- else -%}
+  {%- assign og_image = settings.share_image -%}
+{%- endif -%}
+
+{%- if og_image -%}
+  <meta property="og:image" content="http:{{ og_image | image_url: width: 1200 }}">
+  <meta property="og:image:secure_url" content="https:{{ og_image | image_url: width: 1200 }}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="{{ 1200 | divided_by: og_image.aspect_ratio | round }}">
+  <meta property="og:image:alt" content="{{ og_image.alt | escape }}">
+{%- endif -%}
+
+{%- if request.page_type == 'product' -%}
+  <meta property="og:price:amount" content="{{ product.price | divided_by: 100.0 }}">
+  <meta property="og:price:currency" content="{{ cart.currency.iso_code }}">
+{%- endif -%}
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ og_title | escape }}">
+<meta name="twitter:description" content="{{ og_description | escape }}">
+
+{%- comment -%} Organisation + site search, emitted once on every page. {%- endcomment -%}
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": {{ shop.name | json }},
+    "url": {{ shop.url | json }}
+    {%- if settings.share_image -%}
+      , "logo": {{ settings.share_image | image_url: width: 600 | prepend: 'https:' | json }}
+    {%- endif -%}
+    {%- capture social -%}
+      {%- if settings.social_instagram != blank -%}{{ settings.social_instagram | json }},{%- endif -%}
+      {%- if settings.social_pinterest != blank -%}{{ settings.social_pinterest | json }},{%- endif -%}
+      {%- if settings.social_facebook != blank -%}{{ settings.social_facebook | json }},{%- endif -%}
+      {%- if settings.social_youtube != blank -%}{{ settings.social_youtube | json }},{%- endif -%}
+    {%- endcapture -%}
+    {%- assign social = social | split: ',' | join: ',' -%}
+    {%- if social != blank -%}
+      , "sameAs": [{{ social }}]
+    {%- endif -%}
+  }
+</script>
+
+{%- if request.page_type == 'index' -%}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": {{ shop.name | json }},
+      "url": {{ shop.url | json }},
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {{ shop.url | append: '/search?q={search_term_string}' | json }},
+        "query-input": "required name=search_term_string"
+      }
+    }
+  </script>
+{%- endif -%}
+
+{%- if request.page_type == 'product' -%}
+  {%- render 'structured-data-product', product: product -%}
+{%- endif -%}
+
+{%- if request.page_type == 'article' -%}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": {{ article.title | json }},
+      "datePublished": {{ article.published_at | date: '%Y-%m-%dT%H:%M:%SZ' | json }},
+      "articleBody": {{ article.content | strip_html | json }},
+      {%- if article.image -%}
+        "image": [{{ article.image | image_url: width: 1600 | prepend: 'https:' | json }}],
+      {%- endif -%}
+      "author": { "@type": "Person", "name": {{ article.author | json }} },
+      "publisher": { "@type": "Organization", "name": {{ shop.name | json }} },
+      "mainEntityOfPage": { "@type": "WebPage", "@id": {{ request.origin | append: article.url | json }} }
+    }
+  </script>
+{%- endif -%}
+
+{%- comment -%} Breadcrumbs help the crawler and cost nothing. {%- endcomment -%}
+{%- if request.page_type == 'product' or request.page_type == 'collection' or request.page_type == 'article' -%}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": {{ 'general.breadcrumb.home' | t | json }}, "item": {{ shop.url | json }} }
+        {%- if request.page_type == 'product' -%}
+          {%- if collection.url -%}
+            , { "@type": "ListItem", "position": 2, "name": {{ collection.title | json }}, "item": {{ request.origin | append: collection.url | json }} }
+            , { "@type": "ListItem", "position": 3, "name": {{ product.title | json }}, "item": {{ request.origin | append: product.url | json }} }
+          {%- else -%}
+            , { "@type": "ListItem", "position": 2, "name": {{ product.title | json }}, "item": {{ request.origin | append: product.url | json }} }
+          {%- endif -%}
+        {%- elsif request.page_type == 'collection' -%}
+          , { "@type": "ListItem", "position": 2, "name": {{ collection.title | json }}, "item": {{ request.origin | append: collection.url | json }} }
+        {%- elsif request.page_type == 'article' -%}
+          , { "@type": "ListItem", "position": 2, "name": {{ blog.title | json }}, "item": {{ request.origin | append: blog.url | json }} }
+          , { "@type": "ListItem", "position": 3, "name": {{ article.title | json }}, "item": {{ request.origin | append: article.url | json }} }
+        {%- endif -%}
+      ]
+    }
+  </script>
+{%- endif -%}

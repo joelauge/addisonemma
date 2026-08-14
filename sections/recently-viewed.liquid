@@ -1,0 +1,25 @@
+{%- if settings.enable_recently_viewed -%}
+  <recently-viewed
+    class="section page section--tight"
+    hidden
+    data-limit="{{ section.settings.limit }}"
+    data-exclude="{{ product.handle }}"
+    data-section-id="recent-results"
+  >
+    <p class="kicker kicker--faint" style="padding-bottom: 18px; border-bottom: 1px solid var(--rule-soft);">
+      {{ section.settings.heading }}
+    </p>
+    <div class="product-grid product-grid--compact" style="{% render 'grid-style', columns: section.settings.limit, mobile: 3 %} padding-top: 24px;" data-recent-target></div>
+  </recently-viewed>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "t:sections.recently_viewed.name",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "t:sections.common.heading", "default": "Recently viewed" },
+    { "type": "range", "id": "limit", "min": 3, "max": 8, "step": 1, "label": "t:sections.recently_viewed.limit", "default": 6 }
+  ]
+}
+{% endschema %}

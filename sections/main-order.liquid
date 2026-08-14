@@ -1,0 +1,69 @@
+<div class="page" style="padding-block: clamp(50px, 8vw, 90px);">
+  <nav class="breadcrumb" aria-label="{{ 'general.breadcrumb.label' | t }}" style="padding-top: 0;">
+    <a href="{{ routes.account_url }}">{{ 'customer.account.title_short' | t }}</a>
+    /
+    <span class="breadcrumb__current">{{ order.name }}</span>
+  </nav>
+
+  <h1 class="display display--m" style="margin-top: 20px;">{{ 'customer.order.title' | t: name: order.name }}</h1>
+  <p class="meta-line" style="margin-top: 12px;">{{ order.created_at | date: format: 'day_month_year' }}</p>
+
+  {%- if order.cancelled -%}
+    <p class="form-banner form-banner--error" style="margin-top: 24px;">
+      {%- assign cancelled_label = order.cancelled_at | date: format: 'day_month_year' -%}
+      {{ 'customer.order.cancelled' | t: date: cancelled_label }}
+      {{ order.cancel_reason_label }}
+    </p>
+  {%- endif -%}
+
+  <div style="display: grid; grid-template-columns: 1.6fr 1fr; gap: clamp(30px, 6vw, 70px); margin-top: 40px; align-items: start;">
+    <div style="border-top: 1px solid var(--rule);">
+      {%- for line in order.line_items -%}
+        <div style="display: grid; grid-template-columns: 90px 1fr auto; gap: 20px; padding: 22px 0; border-bottom: 1px solid var(--rule-soft); align-items: start;">
+          <div class="media media--3-4">
+            {%- if line.image -%}
+                            {%- assign img_alt = line.title | escape -%}
+              {{ line.image | image_url: width: 270 | image_tag: loading: 'lazy', widths: '90,180,270', sizes: '90px', alt: img_alt, class: 'media__img' }}
+            {%- else -%}
+              {{ 'product-1' | placeholder_svg_tag: 'media__placeholder' }}
+            {%- endif -%}
+          </div>
+          <div>
+            <a class="cart-line__title" href="{{ line.product.url }}">{{ line.title }}</a>
+            <p class="cart-line__meta">{{ 'customer.order.quantity' | t: count: line.quantity }}</p>
+            {%- if line.fulfillment -%}
+              <p class="cart-line__meta" style="color: var(--kicker);">
+                {%- assign shipped_label = line.fulfillment.created_at | date: format: 'day_month_year' -%}
+                {{ 'customer.order.shipped_on' | t: date: shipped_label }}
+                {%- if line.fulfillment.tracking_url %}
+                  &mdash; <a href="{{ line.fulfillment.tracking_url }}" style="text-decoration: underline;">{{ 'customer.order.track' | t }}</a>
+                {%- endif -%}
+              </p>
+            {%- endif -%}
+          </div>
+          <div class="cart-line__price">{{ line.final_line_price | money }}</div>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    <aside style="background: var(--paper-alt); padding: 30px;">
+      <div class="cart-total"><span>{{ 'cart.totals.subtotal' | t }}</span><span>{{ order.line_items_subtotal_price | money }}</span></div>
+      {%- for shipping_method in order.shipping_methods -%}
+        <div class="cart-total"><span>{{ shipping_method.title }}</span><span>{{ shipping_method.price | money }}</span></div>
+      {%- endfor -%}
+      {%- for tax_line in order.tax_lines -%}
+        <div class="cart-total"><span>{{ tax_line.title }}</span><span>{{ tax_line.price | money }}</span></div>
+      {%- endfor -%}
+      <div class="cart-total cart-total--grand"><span>{{ 'cart.totals.total' | t }}</span><span>{{ order.total_price | money_with_currency }}</span></div>
+
+      <div style="margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--rule);">
+        <p class="kicker kicker--faint">{{ 'customer.order.shipping_address' | t }}</p>
+        <div class="prose" style="font-size: 14px; margin-top: 10px;">{{ order.shipping_address | format_address }}</div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+{% schema %}
+{ "name": "t:sections.customers.order", "tag": "section", "settings": [] }
+{% endschema %}

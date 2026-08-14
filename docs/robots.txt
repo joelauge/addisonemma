@@ -1,0 +1,3 @@
+# Preview of an unannounced storefront.
+User-agent: *
+Disallow: /

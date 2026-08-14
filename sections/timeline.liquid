@@ -1,0 +1,42 @@
+<section class="section page section--flush-top" style="padding-bottom: 104px;">
+  {%- if section.settings.heading != blank -%}
+    <p class="kicker kicker--faint" style="padding-bottom: 20px; border-bottom: 1px solid var(--rule);">
+      {{ section.settings.heading }}
+    </p>
+  {%- endif -%}
+
+  {%- for block in section.blocks -%}
+    <div class="timeline__row" {{ block.shopify_attributes }} data-reveal>
+      <div class="timeline__year">{{ block.settings.year }}</div>
+      <div class="kicker" style="font-size: 10px; letter-spacing: 0.2em;">{{ block.settings.kicker }}</div>
+      <p class="timeline__body">{{ block.settings.body }}</p>
+    </div>
+  {%- endfor -%}
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.timeline.name",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "t:sections.common.heading", "default": "A short chronology" }
+  ],
+  "blocks": [
+    {
+      "type": "entry",
+      "name": "t:sections.timeline.blocks.entry",
+      "settings": [
+        { "type": "text", "id": "year", "label": "t:sections.timeline.blocks.year", "default": "1908" },
+        { "type": "text", "id": "kicker", "label": "t:sections.common.kicker", "default": "The first room" },
+        { "type": "textarea", "id": "body", "label": "t:sections.common.body", "default": "Emma Addison rents a room above a tannery in Saint-Côme-d'Olt and makes riding coats to order for the women of the valley." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.timeline.name",
+      "blocks": [{ "type": "entry" }, { "type": "entry" }, { "type": "entry" }]
+    }
+  ]
+}
+{% endschema %}

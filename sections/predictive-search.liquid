@@ -1,0 +1,86 @@
+{%- comment -%}
+  Rendered on its own by the Predictive Search API. The panel in the layout
+  swaps in [data-search-results] and [data-search-status] from this response.
+{%- endcomment -%}
+{%- liquid
+  assign products = predictive_search.resources.products
+  assign collections = predictive_search.resources.collections
+  assign articles = predictive_search.resources.articles
+  assign total = products.size | plus: collections.size | plus: articles.size
+-%}
+
+<span data-search-status>
+  {%- if predictive_search.performed -%}
+    {%- if total == 0 -%}
+      {{ 'search.no_results_for' | t: terms: predictive_search.terms }}
+    {%- elsif total == 1 -%}
+      {{ 'search.one_result' | t }}
+    {%- else -%}
+      {{ 'search.results_count' | t: count: total }}
+    {%- endif -%}
+  {%- endif -%}
+</span>
+
+<div data-search-results>
+  {%- if products.size > 0 -%}
+    <div class="panel__results">
+      {%- for product in products -%}
+        <a
+          class="panel__result"
+          href="{{ product.url }}"
+          data-search-result
+          role="option"
+          aria-selected="false"
+        >
+          <div class="media media--3-4">
+            {%- if product.featured_media -%}
+                            {%- assign img_alt = product.featured_media.alt | default: product.title | escape -%}
+              {{
+                product.featured_media
+                | image_url: width: 500
+                | image_tag:
+                  loading: 'lazy',
+                  widths: '160,240,320,480',
+                  sizes: '(min-width: 990px) 16vw, 40vw',
+                  alt: img_alt,
+                  class: 'media__img'
+              }}
+            {%- else -%}
+              {{ 'product-1' | placeholder_svg_tag: 'media__placeholder' }}
+            {%- endif -%}
+          </div>
+          <div class="panel__result-title">{{ product.title }}</div>
+          <div class="panel__result-price">{% render 'price', product: product, show_from: true %}</div>
+        </a>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+
+  {%- if collections.size > 0 or articles.size > 0 -%}
+    <div class="panel__suggestions" style="flex-direction: row; flex-wrap: wrap; gap: 8px; margin-top: 26px;">
+      {%- for collection in collections -%}
+        <a class="pill" href="{{ collection.url }}" data-search-result role="option" aria-selected="false">
+          {{ collection.title }}
+        </a>
+      {%- endfor -%}
+      {%- for article in articles -%}
+        <a class="pill" href="{{ article.url }}" data-search-result role="option" aria-selected="false">
+          {{ article.title }}
+        </a>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+
+  {%- if predictive_search.performed and total == 0 -%}
+    <p class="prose" style="margin-top: 20px; max-width: 460px;">
+      {{ 'search.no_results_body' | t }}
+    </p>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.predictive_search.name",
+  "settings": []
+}
+{% endschema %}

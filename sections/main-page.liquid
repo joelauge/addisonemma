@@ -1,0 +1,23 @@
+<div class="page">
+  <header style="padding: 66px 0 26px; border-bottom: 1px solid var(--rule);">
+    {%- if section.settings.kicker != blank -%}
+      <p class="kicker">{{ section.settings.kicker }}</p>
+    {%- endif -%}
+    <h1 class="display display--l" style="margin-top: 18px;">{{ page.title }}</h1>
+  </header>
+
+  <div class="prose" style="max-width: {{ section.settings.max_width }}px; padding: 48px 0 104px;">
+    {{ page.content }}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.main_page.name",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "kicker", "label": "t:sections.common.kicker" },
+    { "type": "range", "id": "max_width", "min": 480, "max": 1200, "step": 20, "unit": "px", "label": "t:sections.main_page.max_width", "default": 760 }
+  ]
+}
+{% endschema %}

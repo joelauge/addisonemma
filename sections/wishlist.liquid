@@ -1,0 +1,58 @@
+{%- comment -%}
+  Saved pieces. Everything is rendered server-side; <wishlist-grid> just
+  reveals the cards whose handles are in localStorage. No account, no
+  round-trip, no waiting.
+{%- endcomment -%}
+<div class="page">
+  <nav class="breadcrumb" aria-label="{{ 'general.breadcrumb.label' | t }}">
+    <a href="{{ routes.root_url }}">{{ 'general.breadcrumb.home' | t }}</a>
+    /
+    <span class="breadcrumb__current">{{ section.settings.heading }}</span>
+  </nav>
+
+  <h1 class="display display--l" style="margin-top: 28px;">{{ section.settings.heading }}</h1>
+  <p class="prose" style="max-width: 460px; margin-top: 14px;">
+    {{ 'wishlist.intro' | t: days: settings.wishlist_days }}
+  </p>
+
+  <wishlist-grid>
+    <div data-wishlist-empty>
+      <div class="collection-empty">
+        <p class="collection-empty__title">{{ 'wishlist.empty_title' | t }}</p>
+        <a class="link-rule" href="{{ section.settings.collection.url | default: routes.all_products_collection_url }}" style="margin-top: 22px;">
+          {{ 'wishlist.empty_cta' | t }}
+        </a>
+      </div>
+    </div>
+
+    <div class="product-grid" style="{% render 'grid-style', columns: 4 %} padding: 44px 0 116px;" data-wishlist-grid hidden>
+      {%- liquid
+        assign source = section.settings.collection
+        if source == blank
+          assign source = collections.all
+        endif
+      -%}
+      {%- for product in source.products limit: 120 -%}
+        <div data-wishlist-card="{{ product.handle }}" hidden>
+          {% render 'product-card', card_product: product, sizes: '(min-width: 990px) 25vw, 50vw' %}
+        </div>
+      {%- endfor -%}
+    </div>
+  </wishlist-grid>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.wishlist.name",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "t:sections.common.heading", "default": "Saved pieces" },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "t:sections.wishlist.collection",
+      "info": "t:sections.wishlist.collection_info"
+    }
+  ]
+}
+{% endschema %}

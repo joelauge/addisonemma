@@ -1,0 +1,28 @@
+<div class="page" style="max-width: 460px; margin-inline: auto; padding-block: clamp(60px, 10vw, 120px);">
+  <h1 class="display display--m">{{ 'customer.activate.title' | t }}</h1>
+  <p class="prose" style="margin-top: 14px;">{{ 'customer.activate.body' | t }}</p>
+
+  {%- form 'activate_customer_password', class: 'form-stack', style: 'margin-top: 28px;' -%}
+    {%- if form.errors -%}
+      <p class="form-banner form-banner--error" tabindex="-1" data-form-error>{{ form.errors | default_errors }}</p>
+    {%- endif -%}
+
+    <label class="field">
+      <span class="field__label">{{ 'customer.fields.password' | t }}</span>
+      <input class="field__input" type="password" name="customer[password]" autocomplete="new-password" required>
+    </label>
+    <label class="field">
+      <span class="field__label">{{ 'customer.fields.password_confirm' | t }}</span>
+      <input class="field__input" type="password" name="customer[password_confirmation]" autocomplete="new-password" required>
+    </label>
+
+    <button class="btn" type="submit">{{ 'customer.activate.submit' | t }}</button>
+    <button class="plain-button link-rule" type="submit" name="decline" style="justify-self: start;">
+      {{ 'customer.activate.decline' | t }}
+    </button>
+  {%- endform -%}
+</div>
+
+{% schema %}
+{ "name": "t:sections.customers.activate", "tag": "section", "settings": [] }
+{% endschema %}

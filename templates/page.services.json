@@ -1,0 +1,25 @@
+{
+  "sections": {
+    "main": {
+      "type": "services",
+      "blocks": {
+        "repairs": { "type": "service", "settings": { "title": "Repairs and re-waxing", "note": "No charge, forever", "body": "Send any Addison Emma garment to the workroom and we will mend, re-wax or re-line it. We keep the patterns for every piece we have made since 1994, so a replacement pocket bag or facing is cut from the original." } },
+        "appointments": { "type": "service", "settings": { "title": "Private appointments", "note": "One hour, free", "body": "A fitter, the full collection, and as long as you need. Available in all four boutiques or by video call for clients further afield." } },
+        "measure": { "type": "service", "settings": { "title": "Made to measure", "note": "Ten to twelve weeks", "body": "Our outerwear and tailoring can be cut to your measurements in any cloth we hold, with two fittings included. Begin with an appointment." } },
+        "delivery": { "type": "service", "settings": { "title": "Delivery and returns", "note": "Worldwide", "body": "Complimentary insured shipping with duties included, delivered within three working days in France and five elsewhere. Returns within thirty days, collected by us." } },
+        "archive": { "type": "service", "settings": { "title": "The archive", "note": "By request", "body": "Single sizes from past seasons, kept in the house at Saint-Côme. Write to us with what you are looking for and we will tell you honestly whether we have it." } }
+      },
+      "block_order": ["repairs", "appointments", "measure", "delivery", "archive"],
+      "settings": {
+        "kicker": "Client services",
+        "heading": "Everything after the purchase",
+        "show_form": true,
+        "form_heading": "Request an appointment",
+        "form_body": "An hour with a fitter, in the boutique or by video. No obligation to buy.",
+        "form_submit": "Request appointment",
+        "telephone": "+33 5 65 44 00 12"
+      }
+    }
+  },
+  "order": ["main"]
+}

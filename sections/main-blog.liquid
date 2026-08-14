@@ -1,0 +1,128 @@
+{%- paginate blog.articles by section.settings.page_size -%}
+  <div class="page">
+    <header style="display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; padding: 66px 0 26px; border-bottom: 1px solid var(--rule); flex-wrap: wrap;">
+      <div>
+        {%- if section.settings.kicker != blank -%}
+          <p class="kicker">{{ section.settings.kicker }}</p>
+        {%- endif -%}
+        <h1 class="display display--l" style="margin-top: 18px;">{{ blog.title }}</h1>
+      </div>
+
+      {%- if section.settings.show_tag_filters and blog.all_tags.size > 0 -%}
+        <div style="display: flex; gap: 10px; flex-wrap: wrap; padding-bottom: 4px;">
+          <a class="pill" href="{{ blog.url }}" aria-current="{% if current_tags == blank %}true{% else %}false{% endif %}">
+            {{ 'blogs.all' | t }}
+          </a>
+          {%- for tag in blog.all_tags limit: 6 -%}
+            <a
+              class="pill"
+              href="{{ blog.url }}/tagged/{{ tag | handle }}"
+              aria-current="{% if current_tags contains tag %}true{% else %}false{% endif %}"
+            >
+              {{ tag }}
+            </a>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </header>
+
+    {%- if paginate.current_page == 1 and section.settings.feature_first and blog.articles.first -%}
+      {%- assign featured = blog.articles.first -%}
+      <a class="journal-feature" href="{{ featured.url }}">
+        <div class="media media--16-10">
+          {%- if featured.image -%}
+                        {%- assign img_alt = featured.image.alt | default: featured.title | escape -%}
+            {{
+              featured.image
+              | image_url: width: 1600
+              | image_tag:
+                loading: 'eager',
+                fetchpriority: 'high',
+                widths: '600,900,1200,1600',
+                sizes: '(min-width: 990px) 58vw, 100vw',
+                alt: img_alt,
+                class: 'media__img'
+            }}
+          {%- else -%}
+            {{ 'lifestyle-1' | placeholder_svg_tag: 'media__placeholder' }}
+          {%- endif -%}
+        </div>
+        <div>
+          {%- if featured.tags.size > 0 -%}
+            <p class="kicker kicker--faint" style="color: var(--kicker);">{{ featured.tags.first }}</p>
+          {%- endif -%}
+          <h2 class="display journal-feature__title">{{ featured.title }}</h2>
+          <p class="prose" style="margin-top: 18px; max-width: 420px;">
+            {{ featured.excerpt_or_content | strip_html | truncatewords: 34 }}
+          </p>
+          <p class="meta-line" style="margin-top: 22px;">
+            {{ featured.published_at | date: format: 'day_month_year' }}
+            {%- if featured.content.size > 0 -%}
+              {%- assign minutes = featured.content | strip_html | split: ' ' | size | divided_by: 200 | plus: 1 -%}
+              &mdash; {{ 'blogs.read_time' | t: minutes: minutes }}
+            {%- endif -%}
+          </p>
+        </div>
+      </a>
+    {%- endif -%}
+
+    <div class="product-grid" style="{% render 'grid-style', columns: section.settings.columns, mobile: 1 %} padding: 48px 0 104px;">
+      {%- for article in blog.articles -%}
+        {%- if paginate.current_page == 1 and section.settings.feature_first and forloop.first -%}
+          {%- continue -%}
+        {%- endif -%}
+        <a class="journal-card" href="{{ article.url }}">
+          <div class="media media--4-3" data-reveal>
+            {%- if article.image -%}
+                            {%- assign img_alt = article.image.alt | default: article.title | escape -%}
+              {{
+                article.image
+                | image_url: width: 1200
+                | image_tag:
+                  loading: 'lazy',
+                  widths: '300,450,600,900,1200',
+                  sizes: '(min-width: 990px) 33vw, 90vw',
+                  alt: img_alt,
+                  class: 'media__img'
+              }}
+            {%- else -%}
+              {{ 'lifestyle-2' | placeholder_svg_tag: 'media__placeholder' }}
+            {%- endif -%}
+          </div>
+          {%- if article.tags.size > 0 -%}
+            <p class="kicker kicker--faint journal-card__kicker" style="color: var(--kicker);">{{ article.tags.first }}</p>
+          {%- endif -%}
+          <p class="journal-card__title">{{ article.title }}</p>
+          <p class="meta-line journal-card__date">{{ article.published_at | date: format: 'day_month_year' }}</p>
+        </a>
+      {%- endfor -%}
+    </div>
+
+    {%- if paginate.pages > 1 -%}
+      {% render 'pagination', paginate: paginate %}
+    {%- endif -%}
+  </div>
+{%- endpaginate -%}
+
+{% schema %}
+{
+  "name": "t:sections.main_blog.name",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "kicker", "label": "t:sections.common.kicker", "default": "The journal" },
+    { "type": "checkbox", "id": "feature_first", "label": "t:sections.main_blog.feature_first", "default": true },
+    { "type": "checkbox", "id": "show_tag_filters", "label": "t:sections.main_blog.tag_filters", "default": true },
+    { "type": "range", "id": "page_size", "min": 4, "max": 24, "step": 1, "label": "t:sections.main_blog.page_size", "default": 7 },
+    {
+      "type": "select",
+      "id": "columns",
+      "label": "t:sections.common.columns",
+      "options": [
+        { "value": "2", "label": "2" },
+        { "value": "3", "label": "3" }
+      ],
+      "default": "3"
+    }
+  ]
+}
+{% endschema %}

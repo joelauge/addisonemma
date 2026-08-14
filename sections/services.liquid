@@ -1,0 +1,120 @@
+<div class="page">
+  <header style="padding: 66px 0 26px; border-bottom: 1px solid var(--rule);">
+    {%- if section.settings.kicker != blank -%}
+      <p class="kicker">{{ section.settings.kicker }}</p>
+    {%- endif -%}
+    <h2 class="display display--l" style="margin-top: 18px;">{{ section.settings.heading }}</h2>
+  </header>
+
+  <div class="services">
+    <div>
+      {%- for block in section.blocks -%}
+        <div class="service-row" {{ block.shopify_attributes }}>
+          <div class="service-row__head">
+            <h3 class="service-row__title">{{ block.settings.title }}</h3>
+            {%- if block.settings.note != blank -%}
+              <span class="service-row__note">{{ block.settings.note }}</span>
+            {%- endif -%}
+          </div>
+          <p class="service-row__body">{{ block.settings.body }}</p>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    {%- if section.settings.show_form -%}
+      <aside class="appointment">
+        <p class="kicker">{{ section.settings.form_heading }}</p>
+        {%- if section.settings.form_body != blank -%}
+          <p class="prose" style="font-size: 14px; margin-top: 14px;">{{ section.settings.form_body }}</p>
+        {%- endif -%}
+
+        {%- form 'contact', id: 'AppointmentForm', class: 'form-stack', style: 'margin-top: 26px;' -%}
+          {%- if form.posted_successfully? -%}
+            <p class="form-banner" tabindex="-1" data-form-success>{{ 'contact.success' | t }}</p>
+          {%- elsif form.errors -%}
+            <p class="form-banner form-banner--error" tabindex="-1" data-form-error>
+              {{ form.errors | default_errors }}
+            </p>
+          {%- endif -%}
+
+          <label class="field">
+            <span class="field__label">{{ 'contact.name' | t }}</span>
+            <input class="field__input" type="text" name="contact[name]" autocomplete="name" placeholder="{{ 'contact.name_placeholder' | t }}" required>
+          </label>
+
+          <label class="field">
+            <span class="field__label">{{ 'contact.email' | t }}</span>
+            <input class="field__input" type="email" name="contact[email]" autocomplete="email" placeholder="{{ 'contact.email_placeholder' | t }}" required>
+          </label>
+
+          {%- assign boutique_options = section.settings.boutique_options | newline_to_br | split: '<br />' -%}
+          {%- if boutique_options.size > 0 -%}
+            <label class="field">
+              <span class="field__label">{{ 'contact.boutique' | t }}</span>
+              <select class="field__select" name="contact[boutique]">
+                {%- for option in boutique_options -%}
+                  {%- assign trimmed = option | strip -%}
+                  {%- if trimmed != blank -%}
+                    <option value="{{ trimmed | escape }}">{{ trimmed }}</option>
+                  {%- endif -%}
+                {%- endfor -%}
+              </select>
+            </label>
+          {%- endif -%}
+
+          <label class="field">
+            <span class="field__label">{{ 'contact.message' | t }}</span>
+            <textarea class="field__textarea" name="contact[body]" placeholder="{{ 'contact.message_placeholder' | t }}"></textarea>
+          </label>
+
+          <button class="btn" type="submit" style="margin-top: 6px;">{{ section.settings.form_submit }}</button>
+        {%- endform -%}
+
+        {%- if section.settings.telephone != blank -%}
+          <p class="form-note">{{ 'contact.or_telephone' | t: number: section.settings.telephone }}</p>
+        {%- endif -%}
+      </aside>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.services.name",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "kicker", "label": "t:sections.common.kicker", "default": "Client services" },
+    { "type": "text", "id": "heading", "label": "t:sections.common.heading", "default": "Everything after the purchase" },
+    { "type": "header", "content": "t:sections.services.form_header" },
+    { "type": "checkbox", "id": "show_form", "label": "t:sections.services.show_form", "default": true },
+    { "type": "text", "id": "form_heading", "label": "t:sections.common.heading", "default": "Request an appointment" },
+    { "type": "text", "id": "form_body", "label": "t:sections.common.body", "default": "An hour with a fitter, in the boutique or by video. No obligation to buy." },
+    { "type": "text", "id": "form_submit", "label": "t:sections.services.form_submit", "default": "Request appointment" },
+    {
+      "type": "textarea",
+      "id": "boutique_options",
+      "label": "t:sections.services.boutique_options",
+      "info": "t:sections.services.boutique_options_info",
+      "default": "Paris — rue de Grenelle\nSaint-Côme-d'Olt — the house\nLondon — Chiltern Street\nNew York — Bond Street\nBy video"
+    },
+    { "type": "text", "id": "telephone", "label": "t:sections.footer.telephone", "default": "+33 5 65 44 00 12" }
+  ],
+  "blocks": [
+    {
+      "type": "service",
+      "name": "t:sections.services.blocks.service",
+      "settings": [
+        { "type": "text", "id": "title", "label": "t:sections.common.heading", "default": "Repairs and re-waxing" },
+        { "type": "text", "id": "note", "label": "t:sections.services.blocks.note", "default": "No charge, forever" },
+        { "type": "textarea", "id": "body", "label": "t:sections.common.body", "default": "Send any garment to the workroom and we will mend, re-wax or re-line it. We keep the patterns for every piece we have made since 1994, so a replacement pocket bag or facing is cut from the original." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.services.name",
+      "blocks": [{ "type": "service" }, { "type": "service" }, { "type": "service" }]
+    }
+  ]
+}
+{% endschema %}

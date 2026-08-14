@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-list-collections",
+      "settings": { "kicker": "The collection", "heading": "Everything we make", "columns": "3" }
+    }
+  },
+  "order": ["main"]
+}

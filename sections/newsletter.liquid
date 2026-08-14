@@ -1,0 +1,64 @@
+<section class="newsletter">
+  {%- if section.settings.kicker != blank -%}
+    <p class="kicker newsletter__kicker">{{ section.settings.kicker }}</p>
+  {%- endif -%}
+
+  {%- if section.settings.heading != blank -%}
+    <h2 class="display display--m newsletter__title">{{ section.settings.heading }}</h2>
+  {%- endif -%}
+
+  {%- if section.settings.body != blank -%}
+    <div class="newsletter__text">{{ section.settings.body }}</div>
+  {%- endif -%}
+
+  {%- form 'customer', id: 'NewsletterForm', class: 'newsletter__form-wrapper' -%}
+    <input type="hidden" name="contact[tags]" value="newsletter">
+    <input type="hidden" name="contact[accepts_marketing]" value="true">
+
+    {%- if form.posted_successfully? -%}
+      <p class="newsletter__confirmation" tabindex="-1" data-form-success>
+        {{ 'newsletter.success' | t }}
+      </p>
+    {%- else -%}
+      <div class="newsletter__form">
+        <label class="visually-hidden" for="NewsletterEmail">{{ 'newsletter.label' | t }}</label>
+        <input
+          class="newsletter__input"
+          id="NewsletterEmail"
+          type="email"
+          name="contact[email]"
+          value="{{ form.email }}"
+          placeholder="{{ 'newsletter.placeholder' | t }}"
+          autocomplete="email"
+          required
+          {% if form.errors %}aria-invalid="true" aria-describedby="NewsletterError"{% endif %}
+        >
+        <button class="newsletter__submit" type="submit">{{ 'newsletter.submit' | t }}</button>
+      </div>
+
+      {%- if form.errors -%}
+        <p class="newsletter__confirmation" id="NewsletterError" tabindex="-1" data-form-error style="color: var(--selection);">
+          {{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}
+        </p>
+      {%- endif -%}
+    {%- endif -%}
+  {%- endform -%}
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.newsletter.name",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "kicker", "label": "t:sections.common.kicker", "default": "Correspondence" },
+    { "type": "text", "id": "heading", "label": "t:sections.common.heading", "default": "A letter from the valley, eight times a year" },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "t:sections.common.body",
+      "default": "<p>Collection notes, mill visits, and the occasional recipe. No offers, because we do not have any.</p>"
+    }
+  ],
+  "presets": [{ "name": "t:sections.newsletter.name" }]
+}
+{% endschema %}

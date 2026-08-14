@@ -1,0 +1,41 @@
+<section class="services-strip" style="background: {{ section.settings.background }};">
+  {%- for block in section.blocks -%}
+    <div {{ block.shopify_attributes }}>
+      {%- if block.settings.kicker != blank -%}
+        <p class="kicker kicker--faint" style="color: var(--kicker);">{{ block.settings.kicker }}</p>
+      {%- endif -%}
+      <p class="services-strip__title">{{ block.settings.title }}</p>
+      {%- if block.settings.body != blank -%}
+        <p class="services-strip__body">{{ block.settings.body }}</p>
+      {%- endif -%}
+    </div>
+  {%- endfor -%}
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.services_strip.name",
+  "tag": "section",
+  "settings": [
+    { "type": "color", "id": "background", "label": "t:sections.common.background", "default": "#E9D8D2" }
+  ],
+  "blocks": [
+    {
+      "type": "service",
+      "name": "t:sections.services_strip.blocks.service",
+      "settings": [
+        { "type": "text", "id": "kicker", "label": "t:sections.common.kicker", "default": "Repairs" },
+        { "type": "text", "id": "title", "label": "t:sections.common.heading", "default": "Mended for life" },
+        { "type": "text", "id": "body", "label": "t:sections.common.body", "default": "Any piece, any age. Send it to the valley and we will put it right." }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "t:sections.services_strip.name",
+      "blocks": [{ "type": "service" }, { "type": "service" }, { "type": "service" }, { "type": "service" }]
+    }
+  ]
+}
+{% endschema %}

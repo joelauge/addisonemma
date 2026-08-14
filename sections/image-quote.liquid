@@ -1,0 +1,61 @@
+<section class="hero hero--{{ section.settings.height }}" style="align-items: flex-end;">
+  {%- if section.settings.image -%}
+        {%- assign img_alt = section.settings.image.alt | default: section.settings.quote | strip_html | escape -%}
+    {{
+      section.settings.image
+      | image_url: width: 2400
+      | image_tag:
+        loading: 'lazy',
+        widths: '600,900,1200,1600,2000,2400',
+        sizes: '100vw',
+        alt: img_alt,
+        class: 'hero__media'
+    }}
+  {%- else -%}
+    {{ 'lifestyle-2' | placeholder_svg_tag: 'hero__media' }}
+  {%- endif -%}
+
+  {%- if section.settings.scrim -%}
+    <div class="hero__scrim" aria-hidden="true"></div>
+  {%- endif -%}
+
+  <div class="hero__inner hero__inner--centre" style="text-align: center; padding-bottom: 46px;">
+    {%- if section.settings.quote != blank -%}
+      <p class="display display--m" style="font-style: italic; color: var(--on-brand); max-width: 720px;" data-reveal>
+        {{ section.settings.quote }}
+      </p>
+    {%- endif -%}
+
+    {%- if section.settings.cta_label != blank -%}
+      <a class="link-rule link-rule--light" href="{{ section.settings.cta_link | default: routes.root_url }}" style="margin-top: 26px;">
+        {{ section.settings.cta_label }}
+      </a>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.image_quote.name",
+  "tag": "section",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "t:sections.common.image" },
+    {
+      "type": "select",
+      "id": "height",
+      "label": "t:sections.hero.height",
+      "options": [
+        { "value": "short", "label": "t:sections.hero.height_short" },
+        { "value": "medium", "label": "t:sections.hero.height_medium" },
+        { "value": "tall", "label": "t:sections.hero.height_tall" }
+      ],
+      "default": "short"
+    },
+    { "type": "checkbox", "id": "scrim", "label": "t:sections.image_quote.scrim", "default": false },
+    { "type": "text", "id": "quote", "label": "t:sections.image_quote.quote", "default": "Nothing new, only better made" },
+    { "type": "text", "id": "cta_label", "label": "t:sections.common.link_label", "default": "The house code" },
+    { "type": "url", "id": "cta_link", "label": "t:sections.common.link" }
+  ],
+  "presets": [{ "name": "t:sections.image_quote.name" }]
+}
+{% endschema %}

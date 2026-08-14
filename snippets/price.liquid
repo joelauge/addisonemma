@@ -1,0 +1,28 @@
+{%- comment -%}
+  Price for a product or a variant. The struck compare-at appears only when
+  there is genuinely something struck through.
+
+  Accepts: product, variant, class, show_from
+{%- endcomment -%}
+{%- liquid
+  if variant
+    assign price = variant.price
+    assign compare = variant.compare_at_price
+    assign varies = false
+  else
+    assign price = product.price
+    assign compare = product.compare_at_price
+    assign varies = product.price_varies
+  endif
+-%}
+<span class="price {{ class }}">
+  {%- if compare > price -%}
+    <s data-compare-price>{{ compare | money }}</s>
+    <span class="visually-hidden">{{ 'products.product.on_sale' | t }}</span>
+  {%- endif -%}
+  {%- if varies and show_from -%}
+    <span data-price>{{ 'products.product.from_price' | t: price: price | money }}</span>
+  {%- else -%}
+    <span data-price>{{ price | money }}</span>
+  {%- endif -%}
+</span>

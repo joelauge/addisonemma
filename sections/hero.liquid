@@ -1,0 +1,90 @@
+{%- liquid
+  assign height_class = 'hero--' | append: section.settings.height
+  assign kenburns = ''
+  if settings.motion_hero_kenburns and section.settings.ken_burns
+    assign kenburns = 'hero--kenburns'
+  endif
+-%}
+
+<section class="hero {{ height_class }} {{ kenburns }}">
+  {%- if section.settings.image -%}
+        {%- assign img_alt = section.settings.image.alt | default: section.settings.heading | escape -%}
+    {{
+      section.settings.image
+      | image_url: width: 2800
+      | image_tag:
+        loading: 'eager',
+        fetchpriority: 'high',
+        widths: '600,900,1200,1600,2000,2400,2800',
+        sizes: '100vw',
+        alt: img_alt,
+        class: 'hero__media'
+    }}
+  {%- else -%}
+    {{ 'lifestyle-1' | placeholder_svg_tag: 'hero__media' }}
+  {%- endif -%}
+
+  <div class="hero__scrim" aria-hidden="true"></div>
+
+  <div class="hero__inner {% if section.settings.alignment == 'centre' %}hero__inner--centre{% endif %}">
+    <div class="hero__copy">
+      {%- if section.settings.kicker != blank -%}
+        <p class="hero__kicker">{{ section.settings.kicker }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.heading != blank -%}
+        <h2 class="display display--xl hero__title">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+
+      {%- if section.settings.body != blank -%}
+        <div class="hero__text">{{ section.settings.body }}</div>
+      {%- endif -%}
+    </div>
+
+    {%- if section.settings.cta_label != blank -%}
+      <div class="hero__cta">
+        <a class="link-rule link-rule--light" href="{{ section.settings.cta_link | default: routes.all_products_collection_url }}">
+          {{ section.settings.cta_label }}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.hero.name",
+  "tag": "section",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "t:sections.hero.image" },
+    {
+      "type": "select",
+      "id": "height",
+      "label": "t:sections.hero.height",
+      "options": [
+        { "value": "short", "label": "t:sections.hero.height_short" },
+        { "value": "medium", "label": "t:sections.hero.height_medium" },
+        { "value": "tall", "label": "t:sections.hero.height_tall" }
+      ],
+      "default": "tall"
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "t:sections.hero.alignment",
+      "options": [
+        { "value": "left", "label": "t:sections.hero.alignment_left" },
+        { "value": "centre", "label": "t:sections.hero.alignment_centre" }
+      ],
+      "default": "left"
+    },
+    { "type": "checkbox", "id": "ken_burns", "label": "t:sections.hero.ken_burns", "default": true },
+    { "type": "text", "id": "kicker", "label": "t:sections.hero.kicker", "default": "Autumn — Winter 2026" },
+    { "type": "text", "id": "heading", "label": "t:sections.hero.heading", "default": "The Long <i>Afternoon</i>" },
+    { "type": "richtext", "id": "body", "label": "t:sections.hero.body" },
+    { "type": "text", "id": "cta_label", "label": "t:sections.hero.cta_label", "default": "Discover the collection" },
+    { "type": "url", "id": "cta_link", "label": "t:sections.hero.cta_link" }
+  ],
+  "presets": [{ "name": "t:sections.hero.name" }]
+}
+{% endschema %}

@@ -1,0 +1,118 @@
+<div class="page">
+  <header style="display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; padding: 66px 0 26px; border-bottom: 1px solid var(--rule); flex-wrap: wrap;">
+    <div>
+      {%- if section.settings.kicker != blank -%}
+        <p class="kicker">{{ section.settings.kicker }}</p>
+      {%- endif -%}
+      <h2 class="display display--l" style="margin-top: 18px;">{{ section.settings.heading }}</h2>
+    </div>
+    {%- if section.settings.intro != blank -%}
+      <p class="collection-head__text" style="max-width: 360px;">{{ section.settings.intro }}</p>
+    {%- endif -%}
+  </header>
+
+  <div class="boutiques" style="padding-top: 40px;">
+    {%- for block in section.blocks -%}
+      <div class="boutique" {{ block.shopify_attributes }}>
+        <div class="media media--16-10">
+          {%- if block.settings.image -%}
+                        {%- assign img_alt = block.settings.image.alt | default: block.settings.city | escape -%}
+            {{
+              block.settings.image
+              | image_url: width: 1400
+              | image_tag:
+                loading: 'lazy',
+                widths: '500,700,900,1200,1400',
+                sizes: '(min-width: 990px) 50vw, 100vw',
+                alt: img_alt,
+                class: 'media__img'
+            }}
+          {%- else -%}
+            {{ 'lifestyle-2' | placeholder_svg_tag: 'media__placeholder' }}
+          {%- endif -%}
+        </div>
+
+        <div class="boutique__body">
+          <div class="boutique__head">
+            <h3 class="boutique__city">{{ block.settings.city }}</h3>
+            {%- if block.settings.since != blank -%}
+              <span class="kicker" style="font-size: 9px; letter-spacing: 0.2em;">{{ block.settings.since }}</span>
+            {%- endif -%}
+          </div>
+
+          {%- if block.settings.address != blank -%}
+            <p class="boutique__address">{{ block.settings.address }}</p>
+          {%- endif -%}
+
+          {%- if block.settings.hours != blank -%}
+            <p class="meta-line boutique__hours">{{ block.settings.hours }}</p>
+          {%- endif -%}
+
+          <div style="display: flex; gap: 22px; flex-wrap: wrap;">
+            {%- if block.settings.cta_label != blank -%}
+              <a class="link-rule boutique__cta" href="{{ block.settings.cta_link | default: '#' }}">
+                {{ block.settings.cta_label }}
+              </a>
+            {%- endif -%}
+            {%- if block.settings.map_link != blank -%}
+              <a class="link-rule boutique__cta" href="{{ block.settings.map_link }}" target="_blank" rel="noopener">
+                {{ 'boutiques.directions' | t }}
+                <span class="visually-hidden">{{ 'accessibility.link_messages.new_window' | t }}</span>
+              </a>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+
+  {%- if section.settings.closing != blank -%}
+    <div style="padding: 90px 0 104px; display: grid; justify-items: center; text-align: center;">
+      <p class="display display--s" style="font-style: italic; max-width: 620px;" data-reveal>
+        {{ section.settings.closing }}
+      </p>
+      {%- if section.settings.closing_cta_label != blank -%}
+        <a class="link-rule" href="{{ section.settings.closing_cta_link | default: '#' }}" style="margin-top: 24px;">
+          {{ section.settings.closing_cta_label }}
+        </a>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.boutiques.name",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "kicker", "label": "t:sections.common.kicker", "default": "Boutiques" },
+    { "type": "text", "id": "heading", "label": "t:sections.common.heading", "default": "Five rooms, no more" },
+    { "type": "text", "id": "intro", "label": "t:sections.boutiques.intro", "default": "Each boutique keeps the full collection and a fitter. Appointments are free and last an hour." },
+    { "type": "text", "id": "closing", "label": "t:sections.boutiques.closing", "default": "If you cannot come to us, we will come to you — we visit clients in eleven cities each year." },
+    { "type": "text", "id": "closing_cta_label", "label": "t:sections.common.link_label", "default": "Our services" },
+    { "type": "url", "id": "closing_cta_link", "label": "t:sections.common.link" }
+  ],
+  "blocks": [
+    {
+      "type": "boutique",
+      "name": "t:sections.boutiques.blocks.boutique",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "t:sections.common.image" },
+        { "type": "text", "id": "city", "label": "t:sections.boutiques.blocks.city", "default": "Paris" },
+        { "type": "text", "id": "since", "label": "t:sections.boutiques.blocks.since", "default": "Since 1968" },
+        { "type": "text", "id": "address", "label": "t:sections.boutiques.blocks.address", "default": "42 rue de Grenelle, 7e arrondissement" },
+        { "type": "text", "id": "hours", "label": "t:sections.boutiques.blocks.hours", "default": "Mon — Sat, 11h — 19h" },
+        { "type": "text", "id": "cta_label", "label": "t:sections.common.link_label", "default": "Book an appointment" },
+        { "type": "url", "id": "cta_link", "label": "t:sections.common.link" },
+        { "type": "url", "id": "map_link", "label": "t:sections.boutiques.blocks.map_link" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.boutiques.name",
+      "blocks": [{ "type": "boutique" }, { "type": "boutique" }, { "type": "boutique" }, { "type": "boutique" }]
+    }
+  ]
+}
+{% endschema %}

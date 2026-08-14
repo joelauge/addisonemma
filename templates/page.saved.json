@@ -1,0 +1,6 @@
+{
+  "sections": {
+    "main": { "type": "wishlist", "settings": { "heading": "Saved pieces" } }
+  },
+  "order": ["main"]
+}

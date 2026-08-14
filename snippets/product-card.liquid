@@ -1,0 +1,142 @@
+{%- comment -%}
+  The product card. One photo, one name, one price — and everything else
+  waits until the visitor reaches for it.
+
+  Accepts:
+    card_product — a product
+    sizes        — sizes attribute for the image
+    priority     — true for above-the-fold cards
+    show_badge   — show the New / Last sizes marker
+    reveal       — animate in on scroll
+    compact      — smaller type, for the recently-viewed rail
+{%- endcomment -%}
+{%- liquid
+  assign material = card_product.metafields.custom.material.value | default: card_product.type
+  assign second_image = card_product.media[1].preview_image
+  assign card_sizes = sizes | default: '(min-width: 990px) 25vw, (min-width: 750px) 33vw, 50vw'
+
+  assign now_seconds = 'now' | date: '%s' | times: 1
+  assign published_seconds = card_product.published_at | date: '%s' | times: 1
+  assign days_since = now_seconds | minus: published_seconds | divided_by: 86400
+
+  assign badge = ''
+  if card_product.available == false
+    assign badge = 'products.card.sold_out' | t
+  elsif card_product.metafields.custom.badge.value != blank
+    assign badge = card_product.metafields.custom.badge.value
+  elsif card_product.tags contains 'Last sizes'
+    assign badge = 'products.card.last_sizes' | t
+  elsif days_since < 30
+    assign badge = 'products.card.new' | t
+  endif
+
+  assign size_option_index = -1
+  for option in card_product.options_with_values
+    assign downcased = option.name | downcase
+    if downcased == 'size' or downcased == 'taille'
+      assign size_option_index = forloop.index0
+    endif
+  endfor
+-%}
+
+<div class="card {% if compact %}card--compact{% endif %}" {% if reveal %}data-reveal{% endif %}>
+  {%- comment -%}
+    `section` is not in scope inside a snippet, so the card labels its link
+    directly rather than pointing at an id that may not be unique.
+  {%- endcomment -%}
+  <a class="card__link" href="{{ card_product.url }}" aria-label="{{ card_product.title | escape }}">
+    <div class="media media--ratio-card card__media">
+      {%- if card_product.featured_media -%}
+                {%- assign img_alt = card_product.featured_media.alt | default: card_product.title | escape -%}
+        {{
+          card_product.featured_media
+          | image_url: width: 1200
+          | image_tag:
+            loading: 'lazy',
+            widths: '200,300,400,500,600,750,900,1100',
+            sizes: card_sizes,
+            alt: img_alt,
+            class: 'media__img card__img'
+        }}
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag: 'media__placeholder' }}
+      {%- endif -%}
+
+      {%- if settings.card_hover_second_image and second_image -%}
+        {{
+          second_image
+          | image_url: width: 900
+          | image_tag:
+            loading: 'lazy',
+            widths: '300,400,500,600,750,900',
+            sizes: card_sizes,
+            alt: '',
+            aria-hidden: 'true',
+            class: 'card__alt'
+        }}
+      {%- endif -%}
+
+      {%- if show_badge and badge != blank -%}
+        <span class="card__badge {% unless card_product.available %}card__badge--sold{% endunless %}">{{ badge }}</span>
+      {%- endif -%}
+    </div>
+
+    <div class="card__body">
+      <div>
+        <div class="card__title">{{ card_product.title }}</div>
+        {%- if settings.card_show_vendor_line and material != blank -%}
+          <div class="card__material">{{ material }}</div>
+        {%- endif -%}
+      </div>
+      <div class="card__price">
+        {% render 'price', product: card_product, show_from: true %}
+      </div>
+    </div>
+  </a>
+
+  {%- if settings.card_show_wishlist and settings.enable_wishlist -%}
+    <wishlist-button
+      data-handle="{{ card_product.handle }}"
+      data-label-add="{{ 'wishlist.add' | t: title: card_product.title | escape }}"
+      data-label-remove="{{ 'wishlist.remove' | t: title: card_product.title | escape }}"
+    >
+      <button class="card__wish" type="button" aria-pressed="false">
+        <span class="card__wish-mark" aria-hidden="true"></span>
+      </button>
+    </wishlist-button>
+  {%- endif -%}
+
+  {%- if settings.card_show_quick_add and card_product.available and compact != true -%}
+    {%- if card_product.variants.size == 1 -%}
+      <quick-add class="card__quick" data-single="true" data-variant-id="{{ card_product.selected_or_first_available_variant.id }}">
+        <button class="card__quick-trigger" type="button" data-quick-trigger>
+          {{ 'products.card.quick_add' | t }}
+        </button>
+      </quick-add>
+    {%- elsif size_option_index > -1 -%}
+      <quick-add class="card__quick">
+        <button class="card__quick-trigger" type="button" data-quick-trigger aria-haspopup="true">
+          {{ 'products.card.quick_add_size' | t }}
+        </button>
+        <div class="card__quick-sizes" data-quick-sizes hidden>
+          {%- assign seen_values = '' -%}
+          {%- for variant in card_product.variants -%}
+            {%- assign value = variant.options[size_option_index] -%}
+            {%- unless seen_values contains value -%}
+              {%- assign seen_values = seen_values | append: value | append: '|' -%}
+              <button
+                class="card__quick-size"
+                type="button"
+                data-variant-id="{{ variant.id }}"
+                {% unless variant.available %}disabled{% endunless %}
+                aria-label="{{ 'products.card.add_size' | t: size: value, title: card_product.title | escape }}"
+              >
+                {{ value }}
+              </button>
+            {%- endunless -%}
+          {%- endfor -%}
+        </div>
+      </quick-add>
+    {%- endif -%}
+  {%- endif -%}
+</div>

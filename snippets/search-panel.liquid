@@ -1,0 +1,60 @@
+{%- comment -%}
+  The search that drops from the top of the page. Without JavaScript it is
+  still a plain GET form that lands on /search.
+{%- endcomment -%}
+{%- assign suggestions = settings.search_suggestions | split: ',' -%}
+
+<search-panel
+  id="SearchPanel"
+  hidden
+  data-default-label="{{ 'search.frequently_sought' | t }}"
+  data-loading-label="{{ 'search.searching' | t }}"
+>
+  <button class="overlay" type="button" data-overlay-close aria-label="{{ 'general.actions.close' | t }}"></button>
+
+  <div class="panel" role="dialog" aria-modal="true" aria-labelledby="SearchPanelTitle">
+    <div class="panel__head">
+      <h2 class="kicker kicker--faint" id="SearchPanelTitle">{{ 'search.title' | t }}</h2>
+      <button class="panel__close" type="button" data-overlay-close>{{ 'general.actions.close' | t }}</button>
+    </div>
+
+    <form action="{{ routes.search_url }}" method="get" role="search">
+      <input type="hidden" name="type" value="product">
+      <input type="hidden" name="options[prefix]" value="last">
+      <label class="visually-hidden" for="SearchPanelInput">{{ 'search.label' | t }}</label>
+      <input
+        class="panel__input"
+        id="SearchPanelInput"
+        type="search"
+        name="q"
+        autocomplete="off"
+        spellcheck="false"
+        placeholder="{{ 'search.placeholder' | t }}"
+        data-search-input
+        data-autofocus
+        role="combobox"
+        aria-expanded="true"
+        aria-controls="SearchPanelResults"
+        aria-autocomplete="list"
+      >
+      <button class="visually-hidden" type="submit">{{ 'search.submit' | t }}</button>
+    </form>
+
+    <div class="panel__grid">
+      <div class="panel__suggestions">
+        <p class="kicker kicker--faint" style="margin-bottom: 4px;">{{ 'search.frequently_sought' | t }}</p>
+        {%- for suggestion in suggestions -%}
+          {%- assign term = suggestion | strip -%}
+          {%- if term != blank -%}
+            <button class="panel__suggestion" type="button" data-suggestion="{{ term | escape }}">{{ term }}</button>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+
+      <div>
+        <p class="panel__loading" data-search-status>{{ 'search.frequently_sought' | t }}</p>
+        <div id="SearchPanelResults" role="listbox" aria-label="{{ 'search.results_label' | t }}" data-search-results></div>
+      </div>
+    </div>
+  </div>
+</search-panel>

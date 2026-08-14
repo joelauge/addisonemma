@@ -1,0 +1,43 @@
+<div class="page" style="padding-block: clamp(50px, 8vw, 90px);">
+  <header style="display: flex; justify-content: space-between; align-items: baseline; gap: 24px; padding-bottom: 26px; border-bottom: 1px solid var(--rule); flex-wrap: wrap;">
+    <div>
+      <p class="kicker">{{ 'customer.account.kicker' | t }}</p>
+      <h1 class="display display--m" style="margin-top: 16px;">
+        {{ 'customer.account.greeting' | t: name: customer.first_name | default: customer.email }}
+      </h1>
+    </div>
+    <div style="display: flex; gap: 22px;">
+      <a class="link-rule" href="{{ routes.account_addresses_url }}">{{ 'customer.addresses.title' | t }}</a>
+      <a class="link-rule no-prefetch" href="{{ routes.account_logout_url }}">{{ 'customer.account.log_out' | t }}</a>
+    </div>
+  </header>
+
+  <h2 class="display display--s" style="margin-top: 44px;">{{ 'customer.orders.title' | t }}</h2>
+
+  {%- if customer.orders.size > 0 -%}
+    <div style="margin-top: 24px; border-top: 1px solid var(--rule);">
+      <div class="meta-line" style="display: grid; grid-template-columns: 1fr 1.2fr 1fr 1fr 1fr; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--rule-soft);">
+        <span>{{ 'customer.orders.number' | t }}</span>
+        <span>{{ 'customer.orders.date' | t }}</span>
+        <span>{{ 'customer.orders.payment' | t }}</span>
+        <span>{{ 'customer.orders.fulfillment' | t }}</span>
+        <span>{{ 'customer.orders.total' | t }}</span>
+      </div>
+      {%- for order in customer.orders -%}
+        <div style="display: grid; grid-template-columns: 1fr 1.2fr 1fr 1fr 1fr; gap: 16px; padding: 18px 0; border-bottom: 1px solid var(--rule-soft); font-size: 14px; color: var(--body);">
+          <a href="{{ order.customer_url }}" style="border-bottom: 1px solid var(--rule-strong);">{{ order.name }}</a>
+          <span>{{ order.created_at | date: format: 'day_month_year' }}</span>
+          <span>{{ order.financial_status_label }}</span>
+          <span>{{ order.fulfillment_status_label }}</span>
+          <span>{{ order.total_net_amount | money }}</span>
+        </div>
+      {%- endfor -%}
+    </div>
+  {%- else -%}
+    <p class="prose" style="margin-top: 18px;">{{ 'customer.orders.none' | t }}</p>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{ "name": "t:sections.customers.account", "tag": "section", "settings": [] }
+{% endschema %}

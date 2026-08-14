@@ -1,0 +1,78 @@
+{%- comment -%}
+  Shopify's own recommendations, fetched by the Section Rendering API so the
+  product page is not held up waiting for them.
+{%- endcomment -%}
+{%- if recommendations.performed and recommendations.products_count > 0 -%}
+  <section class="section page" style="padding-bottom: 40px;">
+    <div class="section-head">
+      <h2 class="section-head__title">{{ section.settings.heading }}</h2>
+      <a class="section-head__link" href="{{ routes.all_products_collection_url }}">
+        {{ section.settings.link_label }}
+      </a>
+    </div>
+
+    <div class="product-grid" style="{% render 'grid-style', columns: section.settings.columns %} padding-top: 42px;">
+      {%- for product in recommendations.products -%}
+        {%
+          render 'product-card',
+          card_product: product,
+          reveal: true,
+          sizes: '(min-width: 990px) 25vw, 50vw'
+        %}
+      {%- endfor -%}
+    </div>
+  </section>
+{%- elsif recommendations.performed == false -%}
+  <div
+    id="RelatedProducts"
+    data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit={{ section.settings.columns }}"
+  >
+    <script>
+      (function () {
+        var host = document.getElementById('RelatedProducts');
+        if (!host) return;
+        fetch(host.dataset.url)
+          .then(function (response) {
+            return response.ok ? response.text() : Promise.reject(response);
+          })
+          .then(function (text) {
+            var parsed = new DOMParser().parseFromString(text, 'text/html');
+            var section = parsed.querySelector('.shopify-section, section');
+            if (section) {
+              host.replaceWith(section);
+              if (window.Theme && window.Theme.toast) {
+                document.dispatchEvent(new CustomEvent('shopify:section:load', { detail: {} }));
+              }
+            } else {
+              host.remove();
+            }
+          })
+          .catch(function () {
+            host.remove();
+          });
+      })();
+    </script>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "t:sections.related_products.name",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "t:sections.common.heading", "default": "Worn with" },
+    { "type": "text", "id": "link_label", "label": "t:sections.common.link_label", "default": "The whole collection" },
+    {
+      "type": "select",
+      "id": "columns",
+      "label": "t:sections.common.columns",
+      "options": [
+        { "value": "3", "label": "3" },
+        { "value": "4", "label": "4" },
+        { "value": "6", "label": "6" }
+      ],
+      "default": "4"
+    }
+  ]
+}
+{% endschema %}

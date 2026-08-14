@@ -1,0 +1,19 @@
+<nav class="pagination" aria-label="{{ 'general.pagination.label' | t }}" style="display: flex; justify-content: center; gap: 14px; padding: 30px 0 90px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;">
+  {%- if paginate.previous -%}
+    <a href="{{ paginate.previous.url }}" style="color: var(--muted);">{{ 'general.pagination.previous' | t }}</a>
+  {%- endif -%}
+
+  {%- for part in paginate.parts -%}
+    {%- if part.is_link -%}
+      <a href="{{ part.url }}" style="color: var(--muted);">{{ part.title }}</a>
+    {%- elsif part.title == paginate.current_page -%}
+      <span aria-current="page" style="color: var(--ink); border-bottom: 1px solid var(--ink);">{{ part.title }}</span>
+    {%- else -%}
+      <span style="color: var(--faint);">{{ part.title }}</span>
+    {%- endif -%}
+  {%- endfor -%}
+
+  {%- if paginate.next -%}
+    <a href="{{ paginate.next.url }}" style="color: var(--muted);">{{ 'general.pagination.next' | t }}</a>
+  {%- endif -%}
+</nav>

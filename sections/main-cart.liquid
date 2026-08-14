@@ -1,0 +1,131 @@
+{%- liquid
+  assign delivery_seconds = settings.cart_delivery_days | times: 86400
+  assign delivery_stamp = 'now' | date: '%s' | times: 1 | plus: delivery_seconds
+-%}
+
+<div class="page" data-cart-section="main-cart">
+  <header style="padding: 66px 0 26px; border-bottom: 1px solid var(--rule);">
+    <p class="kicker">{{ 'cart.page.kicker' | t }}</p>
+    <h1 class="display display--l" style="margin-top: 18px;">{{ 'cart.page.title' | t }}</h1>
+  </header>
+
+  {%- if cart.item_count == 0 -%}
+    <div class="collection-empty">
+      <p class="collection-empty__title">{{ 'cart.drawer.empty_title' | t }}</p>
+      <p class="prose" style="max-width: 420px; margin: 14px auto 0;">
+        {{ 'cart.drawer.empty_text' | t: days: settings.wishlist_days }}
+      </p>
+      <a class="link-rule" href="{{ routes.all_products_collection_url }}" style="margin-top: 26px;">
+        {{ 'cart.drawer.browse' | t }}
+      </a>
+    </div>
+  {%- else -%}
+    <form action="{{ routes.cart_url }}" method="post" novalidate style="display: grid; grid-template-columns: 1.6fr 1fr; gap: clamp(32px, 6vw, 80px); padding: 40px 0 104px; align-items: start;">
+      <div>
+        {%- for line in cart.items -%}
+          <cart-line class="cart-page__line" data-key="{{ line.key }}" data-quantity="{{ line.quantity }}">
+            <a href="{{ line.url }}" class="media media--3-4" style="display: block;">
+              {%- if line.image -%}
+                                {%- assign img_alt = line.title | escape -%}
+                {{ line.image | image_url: width: 360 | image_tag: loading: 'lazy', widths: '120,240,360', sizes: '120px', alt: img_alt, class: 'media__img' }}
+              {%- else -%}
+                {{ 'product-1' | placeholder_svg_tag: 'media__placeholder' }}
+              {%- endif -%}
+            </a>
+
+            <div>
+              <a class="cart-line__title" href="{{ line.url }}" style="font-size: 22px;">{{ line.product.title }}</a>
+              <div class="cart-line__meta">
+                {%- unless line.product.has_only_default_variant %}{{ line.variant.title }}{% endunless -%}
+                {%- for property in line.properties -%}
+                  {%- unless property.last == blank or property.first == 'Gift wrap' %} — {{ property.first }}: {{ property.last }}{% endunless -%}
+                {%- endfor -%}
+              </div>
+
+              <div class="cart-line__controls" style="justify-content: flex-start; gap: 22px;">
+                <div class="qty qty--small">
+                  <button class="qty__button" type="button" data-qty-step="-1" aria-label="{{ 'cart.actions.decrease' | t: title: line.product.title | escape }}">&ndash;</button>
+                  <input class="qty__input" type="number" inputmode="numeric" min="0" value="{{ line.quantity }}" data-qty-input aria-label="{{ 'cart.actions.quantity_for' | t: title: line.product.title | escape }}">
+                  <button class="qty__button" type="button" data-qty-step="1" aria-label="{{ 'cart.actions.increase' | t: title: line.product.title | escape }}">+</button>
+                </div>
+                <button class="cart-line__remove" type="button" data-line-remove>{{ 'cart.actions.remove' | t }}</button>
+              </div>
+            </div>
+
+            <div class="cart-line__price" style="text-align: right;">
+              {%- if line.original_line_price > line.final_line_price -%}
+                <s>{{ line.original_line_price | money }}</s><br>
+              {%- endif -%}
+              {{ line.final_line_price | money }}
+            </div>
+          </cart-line>
+        {%- endfor -%}
+
+        {%- if settings.cart_gift_wrap -%}
+          <cart-gift-wrap>
+            <label class="cart-gift">
+              <input type="checkbox" {% if cart.attributes['Gift wrap'] == 'Yes' %}checked{% endif %}>
+              <span>{{ settings.cart_gift_wrap_label }} <span style="color: var(--faint);">&mdash; {{ 'cart.gift_wrap.free' | t }}</span></span>
+            </label>
+          </cart-gift-wrap>
+        {%- endif -%}
+
+        {%- if section.settings.show_note -%}
+          <cart-note style="display: block; padding: 26px 0;">
+            <label class="field">
+              <span class="field__label">{{ 'cart.note.label' | t }}</span>
+              <textarea class="field__textarea" name="note" placeholder="{{ 'cart.note.placeholder' | t }}">{{ cart.note }}</textarea>
+            </label>
+          </cart-note>
+        {%- endif -%}
+      </div>
+
+      <aside style="background: var(--paper-alt); padding: 34px; position: sticky; top: calc(var(--header-height) + 24px);">
+        <p class="kicker kicker--faint" style="margin-bottom: 20px;">{{ 'cart.totals.title' | t }}</p>
+
+        {%- for discount in cart.cart_level_discount_applications -%}
+          <div class="cart-total" style="color: var(--kicker);">
+            <span>{{ discount.title }}</span>
+            <span>&minus;{{ discount.total_allocated_amount | money }}</span>
+          </div>
+        {%- endfor -%}
+
+        <div class="cart-total">
+          <span>{{ 'cart.totals.subtotal' | t }}</span>
+          <span>{{ cart.items_subtotal_price | money }}</span>
+        </div>
+        <div class="cart-total">
+          <span>{{ 'cart.totals.shipping' | t }}</span>
+          <span>{{ settings.shipping_note }}</span>
+        </div>
+        <div class="cart-total cart-total--grand">
+          <span>{{ 'cart.totals.total' | t }}</span>
+          <span>{{ cart.total_price | money_with_currency }}</span>
+        </div>
+
+        <button class="btn btn--full" type="submit" name="checkout" style="margin-top: 24px;">
+          {{ 'cart.actions.checkout' | t }}
+        </button>
+
+        {%- if settings.cart_show_delivery_estimate -%}
+          {%- assign delivery_label = delivery_stamp | date: format: 'day_month' -%}
+          <p class="cart-foot-note">{{ 'cart.delivery_estimate' | t: date: delivery_label }}</p>
+        {%- endif -%}
+
+        {%- if additional_checkout_buttons -%}
+          <div style="margin-top: 16px;">{{ content_for_additional_checkout_buttons }}</div>
+        {%- endif -%}
+      </aside>
+    </form>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.main_cart.name",
+  "tag": "section",
+  "settings": [
+    { "type": "checkbox", "id": "show_note", "label": "t:sections.main_cart.show_note", "default": true }
+  ]
+}
+{% endschema %}

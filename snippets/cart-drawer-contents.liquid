@@ -1,0 +1,157 @@
+{%- comment -%}
+  Re-rendered on its own by the Section Rendering API after every cart
+  mutation, so the drawer never has to be told what changed.
+{%- endcomment -%}
+{%- liquid
+  assign delivery_seconds = settings.cart_delivery_days | times: 86400
+  assign delivery_stamp = 'now' | date: '%s' | times: 1 | plus: delivery_seconds
+-%}
+
+<div class="drawer__body">
+  {%- if cart.item_count == 0 -%}
+    <div class="cart-empty">
+      <p class="cart-empty__title">{{ 'cart.drawer.empty_title' | t }}</p>
+      <p class="cart-empty__text">{{ 'cart.drawer.empty_text' | t: days: settings.wishlist_days }}</p>
+      <a class="link-rule" href="{{ routes.all_products_collection_url }}" style="margin-top: 26px;">
+        {{ 'cart.drawer.browse' | t }}
+      </a>
+    </div>
+  {%- else -%}
+    <ul>
+      {%- for line in cart.items -%}
+        <li>
+          <cart-line class="cart-line" data-key="{{ line.key }}" data-quantity="{{ line.quantity }}">
+            <div class="media media--3-4 cart-line__media">
+              {%- if line.image -%}
+                                {%- assign img_alt = line.title | escape -%}
+                {{
+                  line.image
+                  | image_url: width: 240
+                  | image_tag: loading: 'lazy', widths: '84,168,252', sizes: '84px', alt: img_alt, class: 'media__img'
+                }}
+              {%- else -%}
+                {{ 'product-1' | placeholder_svg_tag: 'media__placeholder' }}
+              {%- endif -%}
+            </div>
+
+            <div>
+              <div class="cart-line__top">
+                <a class="cart-line__title" href="{{ line.url }}">{{ line.product.title }}</a>
+                <div class="cart-line__price">
+                  {%- if line.original_line_price > line.final_line_price -%}
+                    <s>{{ line.original_line_price | money }}</s>
+                  {%- endif -%}
+                  {{ line.final_line_price | money }}
+                </div>
+              </div>
+
+              <div class="cart-line__meta">
+                {%- unless line.product.has_only_default_variant -%}
+                  {{ line.variant.title }}
+                {%- endunless -%}
+                {%- for property in line.properties -%}
+                  {%- unless property.last == blank or property.first == 'Gift wrap' -%}
+                    — {{ property.first }}: {{ property.last }}
+                  {%- endunless -%}
+                {%- endfor -%}
+                {%- if line.selling_plan_allocation -%}
+                  — {{ line.selling_plan_allocation.selling_plan.name }}
+                {%- endif -%}
+              </div>
+
+              {%- if line.line_level_discount_allocations.size > 0 -%}
+                <div class="cart-line__meta" style="color: var(--kicker);">
+                  {%- for allocation in line.line_level_discount_allocations -%}
+                    {{ allocation.discount_application.title }} (&minus;{{ allocation.amount | money }})
+                  {%- endfor -%}
+                </div>
+              {%- endif -%}
+
+              <div class="cart-line__controls">
+                <div class="qty qty--small">
+                  <button
+                    class="qty__button"
+                    type="button"
+                    data-qty-step="-1"
+                    aria-label="{{ 'cart.actions.decrease' | t: title: line.product.title | escape }}"
+                  >
+                    &ndash;
+                  </button>
+                  <input
+                    class="qty__input"
+                    type="number"
+                    inputmode="numeric"
+                    min="0"
+                    value="{{ line.quantity }}"
+                    data-qty-input
+                    aria-label="{{ 'cart.actions.quantity_for' | t: title: line.product.title | escape }}"
+                  >
+                  <button
+                    class="qty__button"
+                    type="button"
+                    data-qty-step="1"
+                    aria-label="{{ 'cart.actions.increase' | t: title: line.product.title | escape }}"
+                  >
+                    +
+                  </button>
+                </div>
+                <button class="cart-line__remove" type="button" data-line-remove>
+                  {{ 'cart.actions.remove' | t }}
+                </button>
+              </div>
+            </div>
+          </cart-line>
+        </li>
+      {%- endfor -%}
+    </ul>
+
+    {%- if settings.cart_gift_wrap -%}
+      <cart-gift-wrap>
+        <label class="cart-gift">
+          <input type="checkbox" {% if cart.attributes['Gift wrap'] == 'Yes' %}checked{% endif %}>
+          <span>
+            {{ settings.cart_gift_wrap_label }}
+            <span style="color: var(--faint);">&mdash; {{ 'cart.gift_wrap.free' | t }}</span>
+          </span>
+        </label>
+      </cart-gift-wrap>
+    {%- endif -%}
+  {%- endif -%}
+</div>
+
+{%- if cart.item_count > 0 -%}
+  <form class="drawer__foot" action="{{ routes.cart_url }}" method="post" novalidate>
+    {%- if cart.cart_level_discount_applications.size > 0 -%}
+      {%- for discount in cart.cart_level_discount_applications -%}
+        <div class="cart-total" style="color: var(--kicker);">
+          <span>{{ discount.title }}</span>
+          <span>&minus;{{ discount.total_allocated_amount | money }}</span>
+        </div>
+      {%- endfor -%}
+    {%- endif -%}
+
+    <div class="cart-total">
+      <span>{{ 'cart.totals.subtotal' | t }}</span>
+      <span>{{ cart.items_subtotal_price | money }}</span>
+    </div>
+    <div class="cart-total">
+      <span>{{ 'cart.totals.shipping' | t }}</span>
+      <span>{{ settings.shipping_note }}</span>
+    </div>
+    <div class="cart-total cart-total--grand">
+      <span>{{ 'cart.totals.total' | t }}</span>
+      <span>{{ cart.total_price | money_with_currency }}</span>
+    </div>
+
+    <button class="btn btn--full" type="submit" name="checkout" style="margin-top: 22px;">
+      {{ 'cart.actions.checkout' | t }}
+    </button>
+
+    {%- if settings.cart_show_delivery_estimate -%}
+      <p class="cart-foot-note">
+        {%- assign delivery_label = delivery_stamp | date: format: 'day_month' -%}
+        {{ 'cart.delivery_estimate' | t: date: delivery_label }}
+      </p>
+    {%- endif -%}
+  </form>
+{%- endif -%}

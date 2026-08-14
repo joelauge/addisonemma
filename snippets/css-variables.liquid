@@ -1,0 +1,59 @@
+{%- comment -%}
+  Emits the design tokens as custom properties. Kept inline in <head> so the
+  first paint already knows the palette — no flash of the wrong cream.
+{%- endcomment -%}
+{%- liquid
+  assign display_font = settings.font_display | default: 'Cormorant Garamond'
+  assign body_font = settings.font_body | default: 'Jost'
+  assign mono_font = settings.font_mono | default: 'IBM Plex Mono'
+  assign scale = settings.type_scale | default: 100 | divided_by: 100.0
+-%}
+<style>
+  :root {
+    --paper: {{ settings.colour_paper }};
+    --paper-alt: {{ settings.colour_paper_alt }};
+    --placeholder: {{ settings.colour_placeholder }};
+
+    --ink: {{ settings.colour_ink }};
+    --ink-deep: {{ settings.colour_ink | color_darken: 4 }};
+    --body: {{ settings.colour_body }};
+    --muted: {{ settings.colour_muted }};
+    --faint: {{ settings.colour_faint }};
+
+    --brand: {{ settings.colour_brand }};
+    --brand-hover: {{ settings.colour_brand_hover }};
+    --on-brand: {{ settings.colour_on_brand }};
+    --kicker: {{ settings.colour_kicker }};
+    --link-hover: {{ settings.colour_link_hover }};
+    --selection: {{ settings.colour_selection }};
+
+    --rule: {{ settings.colour_ink | color_to_rgb | replace: 'rgb(', 'rgba(' | replace: ')', ', 0.14)' }};
+    --rule-soft: {{ settings.colour_ink | color_to_rgb | replace: 'rgb(', 'rgba(' | replace: ')', ', 0.12)' }};
+    --rule-strong: {{ settings.colour_ink | color_to_rgb | replace: 'rgb(', 'rgba(' | replace: ')', ', 0.30)' }};
+    --scrim: {{ settings.colour_brand | color_to_rgb | replace: 'rgb(', 'rgba(' | replace: ')', ', 0.42)' }};
+    --scrim-deep: {{ settings.colour_brand | color_to_rgb | replace: 'rgb(', 'rgba(' | replace: ')', ', 0.64)' }};
+    --paper-veil: {{ settings.colour_paper | color_to_rgb | replace: 'rgb(', 'rgba(' | replace: ')', ', 0.95)' }};
+
+    --font-display: '{{ display_font }}', 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+    --font-body: '{{ body_font }}', 'Jost', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-mono: '{{ mono_font }}', 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+    --scale: {{ scale }};
+    --gutter: {{ settings.page_gutter }}px;
+    --gutter-tight: {{ settings.page_gutter | times: 0.5 | at_least: 16 | round }}px;
+    --max-width: {{ settings.page_max_width }}px;
+    --radius: {{ settings.corner_radius }};
+
+    --card-ratio: {{ settings.card_image_ratio }};
+    --header-height: 80px;
+
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+    {%- if settings.image_grade %}
+    --grade: saturate({{ settings.image_grade_saturation | divided_by: 100.0 }}) contrast(0.97) brightness(1.02) sepia({{ settings.image_grade_warmth | divided_by: 100.0 }});
+    {%- else %}
+    --grade: none;
+    {%- endif %}
+  }
+</style>

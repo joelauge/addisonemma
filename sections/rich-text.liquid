@@ -1,0 +1,42 @@
+<section class="section page" style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px; background: {{ section.settings.background }};">
+  <div style="display: grid; grid-template-columns: {% if section.settings.layout == 'two_column' %}1fr 1.1fr{% else %}1fr{% endif %}; gap: clamp(32px, 6vw, 100px); max-width: {% if section.settings.layout == 'two_column' %}none{% else %}760px{% endif %}; margin-inline: {% if section.settings.layout == 'centred' %}auto{% else %}0{% endif %};">
+    <div>
+      {%- if section.settings.kicker != blank -%}
+        <p class="kicker">{{ section.settings.kicker }}</p>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <p class="lede" style="margin-top: 16px;" data-reveal>{{ section.settings.heading }}</p>
+      {%- endif -%}
+    </div>
+    {%- if section.settings.body != blank -%}
+      <div class="prose">{{ section.settings.body }}</div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.rich_text.name",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "t:sections.rich_text.layout",
+      "options": [
+        { "value": "two_column", "label": "t:sections.rich_text.two_column" },
+        { "value": "centred", "label": "t:sections.rich_text.centred" },
+        { "value": "left", "label": "t:sections.rich_text.left" }
+      ],
+      "default": "two_column"
+    },
+    { "type": "text", "id": "kicker", "label": "t:sections.common.kicker" },
+    { "type": "textarea", "id": "heading", "label": "t:sections.common.heading" },
+    { "type": "richtext", "id": "body", "label": "t:sections.common.body" },
+    { "type": "color", "id": "background", "label": "t:sections.common.background", "default": "#F4EFE4" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 160, "step": 8, "unit": "px", "label": "t:sections.common.padding_top", "default": 104 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 160, "step": 8, "unit": "px", "label": "t:sections.common.padding_bottom", "default": 86 }
+  ],
+  "presets": [{ "name": "t:sections.rich_text.name" }]
+}
+{% endschema %}

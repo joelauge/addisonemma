@@ -1,0 +1,327 @@
+{
+  "date_formats": {
+    "day_month": "%-d %B",
+    "day_month_year": "%-d %B %Y",
+    "month_year": "%B %Y"
+  },
+
+  "accessibility": {
+    "skip_to_content": "Skip to content",
+    "link_messages": {
+      "new_window": "Opens in a new window."
+    }
+  },
+
+  "general": {
+    "meta": {
+      "tags": "Tagged \"{{ tags }}\"",
+      "page": "Page {{ page }}"
+    },
+    "actions": {
+      "close": "Close",
+      "menu": "Menu",
+      "open_menu": "Open the menu"
+    },
+    "navigation": {
+      "primary": "Primary",
+      "view_all": "View all"
+    },
+    "breadcrumb": {
+      "label": "Breadcrumb",
+      "home": "Home"
+    },
+    "errors": {
+      "generic": "Something went astray. Please try again."
+    },
+    "pagination": {
+      "label": "Pagination",
+      "previous": "Previous",
+      "next": "Next"
+    },
+    "localization": {
+      "country": "Country or region",
+      "language": "Language"
+    },
+    "payment": {
+      "accepted": "Payment methods we accept"
+    },
+    "404": {
+      "kicker": "Page not found",
+      "title": "This one has gone back to the archive",
+      "body": "The page you were looking for has been moved or was never here. The collection, however, is exactly where you left it.",
+      "cta_collection": "Browse the collection",
+      "cta_home": "Return home"
+    },
+    "password": {
+      "label": "Password",
+      "submit": "Enter",
+      "error": "That password is not right. Try once more."
+    }
+  },
+
+  "onboarding": {
+    "product_title": "Example piece",
+    "article_title": "An entry from the journal"
+  },
+
+  "search": {
+    "title": "Search the maison",
+    "title_short": "Search",
+    "heading": "Search the maison",
+    "label": "Search",
+    "placeholder": "Coats, cashmere, gloves…",
+    "submit": "Search",
+    "searching": "Looking…",
+    "frequently_sought": "Frequently sought",
+    "results_label": "Search results",
+    "results_for": "Results for “{{ terms }}”",
+    "results_count": {
+      "one": "1 piece found",
+      "other": "{{ count }} pieces found"
+    },
+    "one_result": "1 piece found",
+    "no_results_for": "Nothing found for “{{ terms }}”",
+    "no_results_title": "Nothing found",
+    "no_results_body": "Try a cloth, a colour, or the name of a piece. Or telephone the house — our advisors know the collection by heart."
+  },
+
+  "cart": {
+    "title_short": "Bag",
+    "drawer": {
+      "title": "Your bag",
+      "empty_title": "Your bag is empty",
+      "empty_text": "Pieces you save are kept for {{ days }} days. Our advisors can also hold a size for you by telephone.",
+      "browse": "Browse the collection"
+    },
+    "page": {
+      "kicker": "Your bag",
+      "title": "Before you go"
+    },
+    "actions": {
+      "remove": "Remove",
+      "decrease": "Reduce the quantity of {{ title }}",
+      "increase": "Increase the quantity of {{ title }}",
+      "quantity_for": "Quantity of {{ title }}",
+      "checkout": "Proceed to checkout"
+    },
+    "totals": {
+      "title": "Summary",
+      "subtotal": "Subtotal",
+      "shipping": "Shipping",
+      "total": "Total"
+    },
+    "gift_wrap": {
+      "free": "no charge"
+    },
+    "note": {
+      "label": "A note for the house",
+      "placeholder": "Anything we should know — a gift message, a delivery instruction."
+    },
+    "delivery_estimate": "Delivered {{ date }} — returns within 30 days",
+    "toast": {
+      "added": "Added to bag",
+      "removed": "Removed from bag"
+    },
+    "errors": {
+      "quantity": "We do not have that many left."
+    }
+  },
+
+  "products": {
+    "product": {
+      "add_to_bag": "Add to bag",
+      "sold_out": "Sold out",
+      "unavailable": "Unavailable",
+      "on_sale": "On sale",
+      "from_price": "From {{ price }}",
+      "quantity": "Quantity",
+      "increase_quantity": "Increase quantity",
+      "decrease_quantity": "Decrease quantity",
+      "size_guide": "Size & fit",
+      "size_guide_full": "Read the full size guide",
+      "low_stock": {
+        "one": "One left in {{ size }}.",
+        "other": "{{ count }} left in {{ size }}."
+      },
+      "delivered_by": "Delivered {{ date }}",
+      "see_in_boutique": "See it in the boutique"
+    },
+    "card": {
+      "new": "New",
+      "last_sizes": "Last sizes",
+      "sold_out": "Sold out",
+      "quick_add": "Add to bag",
+      "quick_add_size": "Choose a size",
+      "add_size": "Add {{ title }} in size {{ size }} to the bag"
+    }
+  },
+
+  "wishlist": {
+    "title_short": "Saved",
+    "add": "Save {{ title }}",
+    "remove": "Remove {{ title }} from saved",
+    "intro": "Kept for {{ days }} days. We will write to you if a saved piece is down to its last two sizes.",
+    "empty_title": "Nothing saved yet",
+    "empty_cta": "Browse the collection",
+    "toast": {
+      "saved": "Saved for {{ days }} days",
+      "removed": "Removed from saved"
+    }
+  },
+
+  "collections": {
+    "showing": {
+      "one": "1 piece",
+      "other": "{{ count }} pieces"
+    },
+    "showing_of": "Showing {{ shown }} of {{ total }}",
+    "count": {
+      "one": "1 piece",
+      "other": "{{ count }} pieces"
+    },
+    "load_more": "Show more",
+    "loading": "Fetching…",
+    "next_page": "Next page",
+    "thats_all": "That is the whole collection",
+    "empty_title": "Nothing here yet",
+    "empty_body": "This part of the collection is being cut. Try another category, or write to us and we will tell you what is coming.",
+    "empty_cta": "Browse everything",
+    "filters": {
+      "all": "All"
+    },
+    "sort": {
+      "label": "Sort by",
+      "prefix": "Sort"
+    }
+  },
+
+  "blogs": {
+    "all": "All",
+    "read_time": {
+      "one": "One minute",
+      "other": "{{ count }} minutes"
+    },
+    "words_by": "Words by {{ author }}",
+    "comments": {
+      "title": {
+        "one": "One letter in reply",
+        "other": "{{ count }} letters in reply"
+      },
+      "name": "Your name",
+      "email": "Email",
+      "body": "Your letter",
+      "submit": "Send",
+      "success": "Thank you — your letter has been received and will appear once we have read it.",
+      "error": "Something in the form needs attention."
+    }
+  },
+
+  "newsletter": {
+    "label": "Email address",
+    "placeholder": "Your email address",
+    "submit": "Subscribe",
+    "success": "Thank you — the next letter will find you."
+  },
+
+  "contact": {
+    "success": "Request received. We will write back within a day.",
+    "name": "Full name",
+    "name_placeholder": "Marguerite Devereux",
+    "email": "Email",
+    "email_placeholder": "you@example.com",
+    "boutique": "Boutique",
+    "message": "Anything we should know",
+    "message_placeholder": "A piece you have in mind, a date that suits you.",
+    "or_telephone": "Or telephone {{ number }}"
+  },
+
+  "boutiques": {
+    "directions": "Directions"
+  },
+
+  "gift_card": {
+    "title": "Gift card from {{ shop }}",
+    "kicker": "A gift card",
+    "amount": "{{ value }}",
+    "expires": "Valid until {{ date }}",
+    "expired": "This card expired on {{ date }}.",
+    "remaining": "Remaining balance {{ balance }}",
+    "shop": "Start shopping",
+    "print": "Print this card"
+  },
+
+  "customer": {
+    "fields": {
+      "email": "Email",
+      "password": "Password",
+      "password_confirm": "Confirm password",
+      "first_name": "First name",
+      "last_name": "Last name",
+      "address1": "Address",
+      "city": "City",
+      "zip": "Postcode",
+      "country": "Country",
+      "phone": "Telephone"
+    },
+    "login": {
+      "title": "Sign in",
+      "submit": "Sign in",
+      "forgot": "Forgotten your password?",
+      "no_account": "No account yet?"
+    },
+    "register": {
+      "title": "Create an account",
+      "body": "An account keeps your addresses, your orders and your repair history in one place.",
+      "submit": "Create account",
+      "have_account": "Already have an account?"
+    },
+    "recover": {
+      "body": "Tell us your email address and we will send you a link to set a new password.",
+      "submit": "Send the link",
+      "cancel": "Back to sign in",
+      "success": "Sent. Check your inbox for the link."
+    },
+    "activate": {
+      "title": "Activate your account",
+      "body": "Choose a password and the account is yours.",
+      "submit": "Activate",
+      "decline": "Decline the invitation"
+    },
+    "reset": {
+      "title": "Set a new password",
+      "body": "Choose something you will remember.",
+      "submit": "Save password"
+    },
+    "account": {
+      "title_short": "Account",
+      "kicker": "Your account",
+      "greeting": "Good day, {{ name }}",
+      "log_out": "Sign out"
+    },
+    "orders": {
+      "title": "Orders",
+      "number": "Order",
+      "date": "Placed",
+      "payment": "Payment",
+      "fulfillment": "Dispatch",
+      "total": "Total",
+      "none": "No orders yet. When you place one, it will be listed here with its repair history."
+    },
+    "order": {
+      "title": "Order {{ name }}",
+      "quantity": "Quantity {{ count }}",
+      "shipped_on": "Dispatched {{ date }}",
+      "track": "Track",
+      "cancelled": "Cancelled on {{ date }}.",
+      "shipping_address": "Delivered to"
+    },
+    "addresses": {
+      "title": "Addresses",
+      "add_new": "Add an address",
+      "default": "Default address",
+      "save": "Save address",
+      "delete": "Delete",
+      "confirm": "Delete this address?"
+    }
+  }
+}

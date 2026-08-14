@@ -1,0 +1,313 @@
+{
+  "settings": {
+    "colours": {
+      "name": "Colours",
+      "surfaces": "Surfaces",
+      "paper": "Paper",
+      "paper_alt": "Paper, secondary",
+      "placeholder": "Image placeholder",
+      "ink": "Ink",
+      "ink_primary": "Primary",
+      "ink_body": "Body copy",
+      "ink_muted": "Muted",
+      "ink_faint": "Faint",
+      "accents": "Accents",
+      "brand": "Brand",
+      "brand_info": "Used for the buttons, the bag and the announcement bar.",
+      "brand_hover": "Brand, hover",
+      "on_brand": "Text on brand",
+      "kicker": "Kicker",
+      "link_hover": "Link hover",
+      "selection": "Text selection"
+    },
+    "typography": {
+      "name": "Typography",
+      "intro": "Three faces: a display serif, a body sans, and a mono for the small uppercase lines. Names must match a Google Fonts family exactly, or a font available on the visitor's machine.",
+      "display": "Display face",
+      "body": "Body face",
+      "mono": "Mono face",
+      "load_google": "Load these from Google Fonts",
+      "load_google_info": "Turn off if you self-host the faces or use Shopify's font library.",
+      "scale": "Type scale"
+    },
+    "layout": {
+      "name": "Layout",
+      "gutter": "Page gutter",
+      "max_width": "Maximum content width",
+      "radius": "Corner radius",
+      "radius_none": "Square",
+      "radius_hairline": "Hairline",
+      "radius_soft": "Soft"
+    },
+    "product_cards": {
+      "name": "Product cards",
+      "ratio": "Image shape",
+      "ratio_portrait": "Portrait (3:4)",
+      "ratio_tall": "Tall (4:5)",
+      "ratio_square": "Square",
+      "hover_image": "Cross-fade to the second photograph on hover",
+      "wishlist": "Show the save mark",
+      "quick_add": "Show quick add",
+      "quick_add_info": "Adds a size picker over the photograph on hover, for products with a Size option.",
+      "material_line": "Show the material line",
+      "material_line_info": "Reads the custom.material metafield, falling back to the product type."
+    },
+    "imagery": {
+      "name": "Imagery",
+      "grade": "Apply the house grade",
+      "grade_info": "A slight desaturation and warmth, so photographs from different shoots sit together.",
+      "warmth": "Warmth",
+      "saturation": "Saturation"
+    },
+    "motion": {
+      "name": "Motion",
+      "intro": "Every animation here is skipped for visitors who ask their system to reduce motion.",
+      "reveals": "Reveal sections as they scroll into view",
+      "kenburns": "Slow zoom on hero images",
+      "view_transitions": "Cross-fade between pages",
+      "view_transitions_info": "Uses the browser's own view transitions where supported.",
+      "prefetch": "Prefetch pages on hover",
+      "prefetch_info": "Loads the next page while the visitor is still reaching for the link."
+    },
+    "commerce": {
+      "name": "Bag and checkout",
+      "cart_drawer": "Open the bag in a drawer",
+      "gift_wrap": "Offer gift wrapping",
+      "gift_wrap_info": "Adds a Gift wrap attribute to the order for your fulfilment team.",
+      "gift_wrap_label": "Gift wrap wording",
+      "delivery_estimate": "Show a delivery estimate",
+      "delivery_days": "Working days to delivery",
+      "shipping_note": "Shipping line in the bag",
+      "low_stock": "Show how many are left",
+      "low_stock_threshold": "Show below this quantity",
+      "wishlist": "Enable saved pieces",
+      "wishlist_info": "Saved in the visitor's own browser. No account needed.",
+      "wishlist_days": "Days a saved piece is kept",
+      "recently_viewed": "Show recently viewed"
+    },
+    "search": {
+      "name": "Search",
+      "predictive": "Search as the visitor types",
+      "suggestions": "Suggested searches",
+      "suggestions_info": "Separated by commas."
+    },
+    "social": { "name": "Social" },
+    "brand": {
+      "name": "Brand",
+      "share_image": "Sharing image",
+      "favicon": "Favicon",
+      "established": "Line beneath the wordmark"
+    }
+  },
+
+  "section_groups": {
+    "header": "Header",
+    "footer": "Footer"
+  },
+
+  "sections": {
+    "common": {
+      "heading": "Heading",
+      "body": "Body",
+      "kicker": "Kicker",
+      "image": "Image",
+      "link": "Link",
+      "link_label": "Link label",
+      "columns": "Columns",
+      "background": "Background",
+      "padding_top": "Padding, top",
+      "padding_bottom": "Padding, bottom"
+    },
+    "announcement": {
+      "name": "Announcement bar",
+      "message": "Message",
+      "link_label": "Link label",
+      "link": "Link"
+    },
+    "header": {
+      "name": "Header",
+      "logo": "Logo",
+      "logo_width": "Logo width",
+      "menu": "Menu",
+      "utility_menu": "Utility menu",
+      "utility_menu_info": "The small links to the right of the wordmark. The first two appear on desktop.",
+      "wishlist_page": "Saved pieces page",
+      "wishlist_page_info": "Create a page using the Saved pieces template, then choose it here.",
+      "megamenu_promo": "Menu promotion",
+      "promo_image": "Image",
+      "promo_heading": "Heading",
+      "promo_link": "Link"
+    },
+    "footer": {
+      "name": "Footer",
+      "logo": "Logo",
+      "address": "Address",
+      "telephone": "Telephone",
+      "payment_icons": "Show payment icons",
+      "locale_selector": "Show country and language pickers",
+      "locale_line": "Fallback line",
+      "blocks": {
+        "menu": "Menu column",
+        "text": "Text column",
+        "heading": "Heading",
+        "menu_label": "Menu",
+        "body": "Body"
+      }
+    },
+    "cart_drawer": { "name": "Bag drawer" },
+    "predictive_search": { "name": "Search results, live" },
+    "hero": {
+      "name": "Hero",
+      "image": "Image",
+      "height": "Height",
+      "height_short": "Short",
+      "height_medium": "Medium",
+      "height_tall": "Tall",
+      "alignment": "Alignment",
+      "alignment_left": "Left",
+      "alignment_centre": "Centred",
+      "ken_burns": "Slow zoom",
+      "kicker": "Kicker",
+      "heading": "Heading",
+      "body": "Body",
+      "cta_label": "Link label",
+      "cta_link": "Link"
+    },
+    "statement": {
+      "name": "Statement",
+      "show_rule": "Show the rule above",
+      "italic": "Italic",
+      "body": "Statement",
+      "attribution": "Attribution"
+    },
+    "featured_collection": {
+      "name": "Featured collection",
+      "collection": "Collection",
+      "limit": "Pieces to show"
+    },
+    "image_quote": {
+      "name": "Image with quote",
+      "scrim": "Darken the image",
+      "quote": "Quote"
+    },
+    "split_feature": {
+      "name": "Image with text",
+      "media_position": "Image position",
+      "left": "Left",
+      "right": "Right",
+      "blocks": {
+        "stat": "Figure",
+        "figure": "Figure",
+        "label": "Label"
+      }
+    },
+    "blog_posts": {
+      "name": "Journal entries",
+      "blog": "Blog",
+      "limit": "Entries to show",
+      "show_date": "Show the date"
+    },
+    "services_strip": {
+      "name": "Services strip",
+      "blocks": { "service": "Service" }
+    },
+    "newsletter": { "name": "Newsletter" },
+    "main_product": {
+      "name": "Product",
+      "blocks": {
+        "kicker": "Category line",
+        "kicker_fallback": "Fallback when the product has no type",
+        "title": "Title",
+        "price": "Price",
+        "price_note": "Note beside the price",
+        "description": "Description",
+        "variant_picker": "Colour and size",
+        "size_guide_page": "Size guide page",
+        "size_guide_info": "Opens in a panel. Create a page with the measurements and choose it here.",
+        "buy_buttons": "Add to bag",
+        "show_quantity": "Show the quantity stepper",
+        "dynamic_checkout": "Show the express checkout buttons",
+        "returns_note": "Returns note",
+        "boutique_page": "Boutiques page",
+        "accordions": "Detail panels",
+        "open_first": "Open the first panel",
+        "accordion_info": "Each panel can pull from a product metafield in the custom namespace. Leave the metafield blank to use the fixed text instead.",
+        "panel_title": "Panel title",
+        "panel_body": "Panel text",
+        "panel_metafield": "Metafield key (custom namespace)",
+        "custom_liquid": "Custom Liquid"
+      }
+    },
+    "related_products": { "name": "Worn with" },
+    "recently_viewed": { "name": "Recently viewed", "limit": "Pieces to show" },
+    "recent_results": { "name": "Recently viewed results" },
+    "main_collection": {
+      "name": "Collection",
+      "page_size": "Pieces per page",
+      "show_filters": "Show filters",
+      "show_sort": "Show sorting"
+    },
+    "main_blog": {
+      "name": "Journal",
+      "feature_first": "Feature the newest entry",
+      "tag_filters": "Show tag filters",
+      "page_size": "Entries per page"
+    },
+    "main_article": { "name": "Journal entry", "show_author": "Show the author" },
+    "main_search": { "name": "Search results", "page_size": "Results per page" },
+    "main_cart": { "name": "Bag", "show_note": "Show the order note" },
+    "main_page": { "name": "Page", "max_width": "Text width" },
+    "main_404": { "name": "Page not found" },
+    "main_list_collections": { "name": "Collection list" },
+    "main_password": { "name": "Password page", "newsletter_heading": "Newsletter heading" },
+    "timeline": {
+      "name": "Chronology",
+      "blocks": { "entry": "Entry", "year": "Year" }
+    },
+    "image_trio": { "name": "Image row", "caption": "Caption" },
+    "boutiques": {
+      "name": "Boutiques",
+      "intro": "Introduction",
+      "closing": "Closing line",
+      "blocks": {
+        "boutique": "Boutique",
+        "city": "City",
+        "since": "Since",
+        "address": "Address",
+        "hours": "Hours",
+        "map_link": "Directions link"
+      }
+    },
+    "services": {
+      "name": "Client services",
+      "form_header": "Appointment form",
+      "show_form": "Show the form",
+      "form_submit": "Submit label",
+      "boutique_options": "Boutique choices",
+      "boutique_options_info": "One per line. Leave empty to hide the field.",
+      "blocks": { "service": "Service", "note": "Note" }
+    },
+    "wishlist": {
+      "name": "Saved pieces",
+      "collection": "Collection to draw from",
+      "collection_info": "Cards are rendered for this collection and revealed when a visitor has saved them. Choose the collection that holds everything you sell."
+    },
+    "rich_text": {
+      "name": "Rich text",
+      "layout": "Layout",
+      "two_column": "Two columns",
+      "centred": "Centred",
+      "left": "Left"
+    },
+    "apps": { "name": "Apps" },
+    "customers": {
+      "login": "Sign in",
+      "register": "Create account",
+      "account": "Account",
+      "order": "Order",
+      "addresses": "Addresses",
+      "activate": "Activate account",
+      "reset": "Reset password"
+    }
+  }
+}

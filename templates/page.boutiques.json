@@ -1,0 +1,22 @@
+{
+  "sections": {
+    "main": {
+      "type": "boutiques",
+      "blocks": {
+        "stcome": { "type": "boutique", "settings": { "city": "Saint-Côme-d'Olt", "since": "Since 1931", "address": "14 rue des Tanneurs, 12500 Aveyron", "hours": "Tue — Sat, 10h — 18h", "cta_label": "Book an appointment" } },
+        "paris": { "type": "boutique", "settings": { "city": "Paris", "since": "Since 1968", "address": "42 rue de Grenelle, 7e arrondissement", "hours": "Mon — Sat, 11h — 19h", "cta_label": "Book an appointment" } },
+        "london": { "type": "boutique", "settings": { "city": "London", "since": "Since 2004", "address": "9 Chiltern Street, Marylebone W1U", "hours": "Mon — Sat, 10h — 18h", "cta_label": "Book an appointment" } },
+        "newyork": { "type": "boutique", "settings": { "city": "New York", "since": "Since 2016", "address": "61 Bond Street, NoHo, NY 10012", "hours": "Tue — Sat, 11h — 18h", "cta_label": "Book an appointment" } }
+      },
+      "block_order": ["stcome", "paris", "london", "newyork"],
+      "settings": {
+        "kicker": "Boutiques",
+        "heading": "Five rooms, no more",
+        "intro": "Each boutique keeps the full collection and a fitter. Appointments are free and last an hour.",
+        "closing": "If you cannot come to us, we will come to you — we visit clients in eleven cities each year.",
+        "closing_cta_label": "Our services"
+      }
+    }
+  },
+  "order": ["main"]
+}

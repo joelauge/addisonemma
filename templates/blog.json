@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-blog",
+      "settings": {
+        "kicker": "The journal",
+        "feature_first": true,
+        "show_tag_filters": true,
+        "page_size": 7,
+        "columns": "3"
+      }
+    }
+  },
+  "order": ["main"]
+}

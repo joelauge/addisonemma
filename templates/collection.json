@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-collection",
+      "settings": {
+        "kicker": "Autumn — Winter 2026",
+        "columns": "3",
+        "page_size": 9,
+        "show_filters": true,
+        "show_sort": true
+      }
+    }
+  },
+  "order": ["main"]
+}

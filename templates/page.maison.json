@@ -1,0 +1,48 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {
+        "height": "medium",
+        "alignment": "left",
+        "ken_burns": false,
+        "kicker": "The maison",
+        "heading": "One valley, <i>four generations</i>",
+        "cta_label": ""
+      }
+    },
+    "intro": {
+      "type": "rich-text",
+      "settings": {
+        "layout": "two_column",
+        "heading": "Emma Addison came south in 1908 with a sewing machine and a letter of introduction. The letter was never needed.",
+        "body": "<p>She took a room above a tannery in Saint-Côme-d'Olt and began making riding coats for the women of the valley — garments meant to be worn in weather, mended, and handed on. Four generations later we work in the same building, from the same principle: make a small number of things properly, name the people who made them, and repair them for as long as they are worn.</p><p>We show twice a year and never discount. What does not sell returns to the archive, where it is often better than what replaced it.</p>",
+        "padding_top": 104,
+        "padding_bottom": 86
+      }
+    },
+    "chronology": {
+      "type": "timeline",
+      "blocks": {
+        "y1908": { "type": "entry", "settings": { "year": "1908", "kicker": "The first room", "body": "Emma Addison rents a room above a tannery in Saint-Côme-d'Olt and makes riding coats to order for the women of the valley." } },
+        "y1931": { "type": "entry", "settings": { "year": "1931", "kicker": "The house", "body": "The maison buys the building on rue des Tanneurs, where the workroom, the archive and the cutting table still stand today." } },
+        "y1962": { "type": "entry", "settings": { "year": "1962", "kicker": "The cloth", "body": "A long correspondence with a Lancashire mill produces the dry-waxed cotton we still use, unchanged, for our outerwear." } },
+        "y1994": { "type": "entry", "settings": { "year": "1994", "kicker": "The cutter", "body": "Sylvie Fabre joins as an apprentice cutter. She has cut every coat the house has made since 2003." } },
+        "y2019": { "type": "entry", "settings": { "year": "2019", "kicker": "Repairs, for life", "body": "We begin re-waxing and mending any Addison Emma garment free of charge, whatever its age or owner." } }
+      },
+      "block_order": ["y1908", "y1931", "y1962", "y1994", "y2019"],
+      "settings": { "heading": "A short chronology" }
+    },
+    "archive": {
+      "type": "image-trio",
+      "blocks": {
+        "one": { "type": "image", "settings": { "caption": "The cutting table, 1954" } },
+        "two": { "type": "image", "settings": { "caption": "Pattern drawer, hand-labelled" } },
+        "three": { "type": "image", "settings": { "caption": "Sylvie at the shears" } }
+      },
+      "block_order": ["one", "two", "three"],
+      "settings": {}
+    }
+  },
+  "order": ["hero", "intro", "chronology", "archive"]
+}

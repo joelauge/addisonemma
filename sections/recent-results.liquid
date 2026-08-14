@@ -1,0 +1,23 @@
+{%- comment -%}
+  Fetched by <recently-viewed> against the search endpoint. Renders nothing
+  but the cards — the host section supplies the heading and the grid.
+{%- endcomment -%}
+<div data-recent-results>
+  {%- for product in search.results -%}
+    {%- if product.object_type == 'product' -%}
+      {%
+        render 'product-card',
+        card_product: product,
+        compact: true,
+        sizes: '(min-width: 990px) 16vw, 33vw'
+      %}
+    {%- endif -%}
+  {%- endfor -%}
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.recent_results.name",
+  "settings": []
+}
+{% endschema %}

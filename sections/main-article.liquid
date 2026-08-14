@@ -1,0 +1,107 @@
+{%- liquid
+  assign minutes = article.content | strip_html | split: ' ' | size | divided_by: 200 | plus: 1
+-%}
+
+<article class="page">
+  <nav class="breadcrumb" aria-label="{{ 'general.breadcrumb.label' | t }}">
+    <a href="{{ blog.url }}">{{ blog.title }}</a>
+    /
+    <span class="breadcrumb__current">{{ article.tags.first | default: article.title }}</span>
+  </nav>
+
+  <header class="article-head">
+    {%- if article.tags.size > 0 -%}
+      <p class="kicker">{{ article.tags.first }}</p>
+    {%- endif -%}
+    <h1 class="display display--l" style="margin-top: 20px; max-width: 900px;">{{ article.title }}</h1>
+    <p class="meta-line" style="margin-top: 24px;">
+      {%- if section.settings.show_author and article.author != blank -%}
+        {{ 'blogs.words_by' | t: author: article.author }} &mdash;
+      {%- endif -%}
+      {{ article.published_at | date: format: 'day_month_year' }}
+      &mdash; {{ 'blogs.read_time' | t: minutes: minutes }}
+    </p>
+  </header>
+
+  {%- if article.image -%}
+    <div class="media media--21-9">
+            {%- assign img_alt = article.image.alt | default: article.title | escape -%}
+      {{
+        article.image
+        | image_url: width: 2400
+        | image_tag:
+          loading: 'eager',
+          fetchpriority: 'high',
+          widths: '800,1200,1600,2000,2400',
+          sizes: '100vw',
+          alt: img_alt,
+          class: 'media__img'
+      }}
+    </div>
+  {%- endif -%}
+
+  <div class="article-body prose">
+    {{ article.content }}
+  </div>
+
+  {%- if section.settings.cta_label != blank and section.settings.cta_link != blank -%}
+    <div style="display: grid; justify-items: center; padding: 70px 0 40px;">
+      <a class="link-rule" href="{{ section.settings.cta_link }}">{{ section.settings.cta_label }}</a>
+    </div>
+  {%- endif -%}
+
+  {%- if blog.comments_enabled? -%}
+    <div style="max-width: 680px; margin: 0 auto; padding: 40px 0 80px;">
+      <h2 class="display display--s">{{ 'blogs.comments.title' | t: count: article.comments_count }}</h2>
+
+      {%- if article.comments_count > 0 -%}
+        <ul style="display: grid; gap: 24px; margin-top: 28px;">
+          {%- for comment in article.comments -%}
+            <li style="padding-bottom: 20px; border-bottom: 1px solid var(--rule-soft);">
+              <p class="prose">{{ comment.content }}</p>
+              <p class="meta-line" style="margin-top: 10px;">
+                {{ comment.author }} &mdash; {{ comment.created_at | date: format: 'day_month_year' }}
+              </p>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+
+      {%- form 'new_comment', article, class: 'form-stack', style: 'margin-top: 36px;' -%}
+        {%- if form.posted_successfully? -%}
+          <p class="form-banner" tabindex="-1" data-form-success>{{ 'blogs.comments.success' | t }}</p>
+        {%- elsif form.errors -%}
+          <p class="form-banner form-banner--error" tabindex="-1" data-form-error>
+            {{ 'blogs.comments.error' | t }}
+          </p>
+        {%- endif -%}
+
+        <label class="field">
+          <span class="field__label">{{ 'blogs.comments.name' | t }}</span>
+          <input class="field__input" type="text" name="comment[author]" value="{{ form.author }}" required>
+        </label>
+        <label class="field">
+          <span class="field__label">{{ 'blogs.comments.email' | t }}</span>
+          <input class="field__input" type="email" name="comment[email]" value="{{ form.email }}" required>
+        </label>
+        <label class="field">
+          <span class="field__label">{{ 'blogs.comments.body' | t }}</span>
+          <textarea class="field__textarea" name="comment[body]" required>{{ form.body }}</textarea>
+        </label>
+        <button class="btn" type="submit" style="justify-self: start;">{{ 'blogs.comments.submit' | t }}</button>
+      {%- endform -%}
+    </div>
+  {%- endif -%}
+</article>
+
+{% schema %}
+{
+  "name": "t:sections.main_article.name",
+  "tag": "section",
+  "settings": [
+    { "type": "checkbox", "id": "show_author", "label": "t:sections.main_article.show_author", "default": true },
+    { "type": "text", "id": "cta_label", "label": "t:sections.common.link_label", "default": "Shop the collection" },
+    { "type": "url", "id": "cta_link", "label": "t:sections.common.link" }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,73 @@
+{%- paginate customer.addresses by 6 -%}
+  <div class="page" style="padding-block: clamp(50px, 8vw, 90px);">
+    <nav class="breadcrumb" aria-label="{{ 'general.breadcrumb.label' | t }}" style="padding-top: 0;">
+      <a href="{{ routes.account_url }}">{{ 'customer.account.title_short' | t }}</a>
+      /
+      <span class="breadcrumb__current">{{ 'customer.addresses.title' | t }}</span>
+    </nav>
+
+    <h1 class="display display--m" style="margin-top: 20px;">{{ 'customer.addresses.title' | t }}</h1>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; margin-top: 36px;">
+      <div style="background: var(--paper-alt); padding: 28px;">
+        <p class="kicker kicker--faint">{{ 'customer.addresses.add_new' | t }}</p>
+        {%- form 'customer_address', customer.new_address, class: 'form-stack', style: 'margin-top: 18px;' -%}
+          <label class="field">
+            <span class="field__label">{{ 'customer.fields.first_name' | t }}</span>
+            <input class="field__input" type="text" name="address[first_name]" autocomplete="given-name">
+          </label>
+          <label class="field">
+            <span class="field__label">{{ 'customer.fields.last_name' | t }}</span>
+            <input class="field__input" type="text" name="address[last_name]" autocomplete="family-name">
+          </label>
+          <label class="field">
+            <span class="field__label">{{ 'customer.fields.address1' | t }}</span>
+            <input class="field__input" type="text" name="address[address1]" autocomplete="address-line1">
+          </label>
+          <label class="field">
+            <span class="field__label">{{ 'customer.fields.city' | t }}</span>
+            <input class="field__input" type="text" name="address[city]" autocomplete="address-level2">
+          </label>
+          <label class="field">
+            <span class="field__label">{{ 'customer.fields.zip' | t }}</span>
+            <input class="field__input" type="text" name="address[zip]" autocomplete="postal-code">
+          </label>
+          <label class="field">
+            <span class="field__label">{{ 'customer.fields.country' | t }}</span>
+            <select class="field__select" name="address[country]" data-default="{{ form.country }}">
+              {{ country_option_tags }}
+            </select>
+          </label>
+          <label class="field">
+            <span class="field__label">{{ 'customer.fields.phone' | t }}</span>
+            <input class="field__input" type="tel" name="address[phone]" autocomplete="tel">
+          </label>
+          <button class="btn" type="submit">{{ 'customer.addresses.save' | t }}</button>
+        {%- endform -%}
+      </div>
+
+      {%- for address in customer.addresses -%}
+        <div style="border: 1px solid var(--rule); padding: 28px;">
+          {%- if address == customer.default_address -%}
+            <p class="kicker kicker--faint">{{ 'customer.addresses.default' | t }}</p>
+          {%- endif -%}
+          <div class="prose" style="font-size: 14px; margin-top: 10px;">{{ address | format_address }}</div>
+          <form method="post" action="/account/addresses/{{ address.id }}" style="margin-top: 18px;">
+            <input type="hidden" name="_method" value="delete">
+            <button class="cart-line__remove" type="submit" data-confirm-message="{{ 'customer.addresses.confirm' | t }}">
+              {{ 'customer.addresses.delete' | t }}
+            </button>
+          </form>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    {%- if paginate.pages > 1 -%}
+      {% render 'pagination', paginate: paginate %}
+    {%- endif -%}
+  </div>
+{%- endpaginate -%}
+
+{% schema %}
+{ "name": "t:sections.customers.addresses", "tag": "section", "settings": [] }
+{% endschema %}

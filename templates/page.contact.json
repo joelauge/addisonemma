@@ -1,0 +1,19 @@
+{
+  "sections": {
+    "main": { "type": "main-page", "settings": { "kicker": "Contact", "max_width": 760 } },
+    "form": {
+      "type": "services",
+      "settings": {
+        "kicker": "",
+        "heading": "Write to the house",
+        "show_form": true,
+        "form_heading": "Send us a note",
+        "form_body": "We answer every letter, usually within a day.",
+        "form_submit": "Send",
+        "boutique_options": "",
+        "telephone": "+33 5 65 44 00 12"
+      }
+    }
+  },
+  "order": ["main", "form"]
+}

@@ -1,0 +1,49 @@
+{% layout none %}
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ 'gift_card.title' | t: shop: shop.name }}</title>
+    {% render 'css-variables' %}
+    {{ 'base.css' | asset_url | stylesheet_tag }}
+    {{ content_for_header }}
+  </head>
+
+  <body class="template--gift-card">
+    <main class="page" style="max-width: 520px; margin-inline: auto; padding-block: clamp(50px, 9vw, 100px); text-align: center;">
+      <p class="header__wordmark" style="padding-left: 0;">{{ shop.name }}</p>
+      <p class="kicker" style="margin-top: 24px;">{{ 'gift_card.kicker' | t }}</p>
+      <h1 class="display display--m" style="margin-top: 14px;">
+        {{ 'gift_card.amount' | t: value: gift_card.initial_value | money }}
+      </h1>
+
+      {%- if gift_card.expired -%}
+        <p class="form-banner form-banner--error" style="margin-top: 24px;">
+          {{ 'gift_card.expired' | t: date: gift_card.expires_on | date: format: 'day_month_year' }}
+        </p>
+      {%- elsif gift_card.expires_on -%}
+        <p class="meta-line" style="margin-top: 12px;">
+          {{ 'gift_card.expires' | t: date: gift_card.expires_on | date: format: 'day_month_year' }}
+        </p>
+      {%- endif -%}
+
+      <div style="margin: 36px 0; padding: 30px; background: var(--paper-alt);">
+        {{ gift_card.qr_identifier }}
+        <p style="font-family: var(--font-mono); font-size: 15px; letter-spacing: 0.22em; word-break: break-all;">
+          {{ gift_card.code | format_code }}
+        </p>
+      </div>
+
+      {%- if gift_card.balance != gift_card.initial_value -%}
+        <p class="meta-line">{{ 'gift_card.remaining' | t: balance: gift_card.balance | money }}</p>
+      {%- endif -%}
+
+      <a class="btn" href="{{ shop.url }}" style="margin-top: 26px;">{{ 'gift_card.shop' | t }}</a>
+
+      <p class="meta-line" style="margin-top: 30px;">
+        <button class="plain-button" type="button" onclick="window.print()">{{ 'gift_card.print' | t }}</button>
+      </p>
+    </main>
+  </body>
+</html>

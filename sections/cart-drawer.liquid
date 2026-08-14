@@ -1,0 +1,29 @@
+{%- comment -%}
+  A section rather than a snippet so the Cart AJAX API can re-render it in
+  place. The <cart-drawer> shell survives; only its contents are swapped.
+{%- endcomment -%}
+<cart-drawer id="CartDrawer" hidden>
+  <button class="overlay" type="button" data-overlay-close aria-label="{{ 'general.actions.close' | t }}"></button>
+
+  <aside class="drawer" role="dialog" aria-modal="true" aria-labelledby="CartDrawerTitle">
+    <div class="drawer__head">
+      <h2 class="drawer__title" id="CartDrawerTitle">
+        {{ 'cart.drawer.title' | t }} (<span data-cart-count>{{ cart.item_count }}</span>)
+      </h2>
+      <button class="drawer__close" type="button" data-overlay-close data-autofocus>
+        {{ 'general.actions.close' | t }}
+      </button>
+    </div>
+
+    <div data-cart-section="cart-drawer">
+      {% render 'cart-drawer-contents' %}
+    </div>
+  </aside>
+</cart-drawer>
+
+{% schema %}
+{
+  "name": "t:sections.cart_drawer.name",
+  "settings": []
+}
+{% endschema %}

@@ -1,0 +1,14 @@
+{
+  "name": "aveyron-harness",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Renders the Aveyron Shopify theme to static HTML for GitHub Pages previews.",
+  "scripts": {
+    "build": "node build.mjs",
+    "serve": "node build.mjs && node serve.mjs"
+  },
+  "dependencies": {
+    "liquidjs": "^10.21.1"
+  }
+}

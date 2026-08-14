@@ -1,0 +1,23 @@
+{
+  "type": "header",
+  "name": "t:section_groups.header",
+  "sections": {
+    "announcement": {
+      "type": "announcement-bar",
+      "settings": {
+        "message": "Complimentary shipping, insured",
+        "link_label": "Private appointments",
+        "link": "shopify://pages/services"
+      }
+    },
+    "header": {
+      "type": "header",
+      "settings": {
+        "logo_width": 180,
+        "menu": "main-menu",
+        "promo_heading": "Just arrived — the waxed cotton coats"
+      }
+    }
+  },
+  "order": ["announcement", "header"]
+}

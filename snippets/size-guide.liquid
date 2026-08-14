@@ -1,0 +1,22 @@
+{%- comment -%}
+  Size guide modal. The content is a normal page, so it stays editable in the
+  admin and remains reachable at its own URL for anyone without JavaScript.
+{%- endcomment -%}
+<modal-dialog id="SizeGuide" hidden>
+  <button class="overlay" type="button" data-overlay-close aria-label="{{ 'general.actions.close' | t }}"></button>
+
+  <div class="modal">
+    <div class="modal__card" role="dialog" aria-modal="true" aria-labelledby="SizeGuideTitle">
+      <div class="modal__head">
+        <h2 class="modal__title" id="SizeGuideTitle">{{ page.title | default: 'products.product.size_guide' | t }}</h2>
+        <button class="panel__close" type="button" data-overlay-close data-autofocus>{{ 'general.actions.close' | t }}</button>
+      </div>
+      <div class="prose" style="margin-top: 16px;">
+        {{ page.content }}
+      </div>
+      <p style="margin-top: 26px;">
+        <a class="link-rule" href="{{ page.url }}">{{ 'products.product.size_guide_full' | t }}</a>
+      </p>
+    </div>
+  </div>
+</modal-dialog>

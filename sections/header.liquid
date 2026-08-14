@@ -1,0 +1,297 @@
+{%- liquid
+  assign menu = section.settings.menu
+  assign utility_menu = section.settings.utility_menu
+-%}
+
+<site-header class="header" role="banner">
+  <div class="header__bar">
+    <button
+      class="header__burger"
+      type="button"
+      data-open="#MobileNav"
+      aria-label="{{ 'general.actions.open_menu' | t }}"
+      aria-controls="MobileNav"
+    >
+      <span class="header__burger-lines" aria-hidden="true"><span></span><span></span><span></span></span>
+      <span>{{ 'general.actions.menu' | t }}</span>
+    </button>
+
+    <nav class="header__nav" aria-label="{{ 'general.navigation.primary' | t }}">
+      {%- for link in menu.links -%}
+        {%- if link.links.size > 0 -%}
+          <div data-menu>
+            <a
+              class="header__nav-link"
+              href="{{ link.url }}"
+              data-menu-trigger
+              aria-expanded="false"
+              aria-haspopup="true"
+              aria-controls="MegaMenu-{{ forloop.index }}"
+              {% if link.active or link.child_active %}aria-current="page"{% endif %}
+            >
+              {{ link.title }}
+            </a>
+
+            <div class="megamenu" id="MegaMenu-{{ forloop.index }}" data-menu-panel hidden>
+              <div class="megamenu__grid">
+                {%- for child in link.links limit: 3 -%}
+                  <div class="megamenu__column">
+                    <p class="megamenu__heading">{{ child.title }}</p>
+                    {%- if child.links.size > 0 -%}
+                      {%- for grandchild in child.links -%}
+                        <a class="megamenu__link" href="{{ grandchild.url }}">{{ grandchild.title }}</a>
+                      {%- endfor -%}
+                    {%- else -%}
+                      <a class="megamenu__link" href="{{ child.url }}">{{ 'general.navigation.view_all' | t }}</a>
+                    {%- endif -%}
+                  </div>
+                {%- endfor -%}
+
+                {%- if section.settings.promo_image or section.settings.promo_heading != blank -%}
+                  <a class="megamenu__promo" href="{{ section.settings.promo_link | default: link.url }}">
+                    <div class="media media--4-3">
+                      {%- if section.settings.promo_image -%}
+                                                {%- assign img_alt = section.settings.promo_heading | escape -%}
+                        {{
+                          section.settings.promo_image
+                          | image_url: width: 900
+                          | image_tag:
+                            loading: 'lazy',
+                            widths: '300,450,600,900',
+                            sizes: '(min-width: 990px) 24vw, 90vw',
+                            alt: img_alt,
+                            class: 'media__img'
+                        }}
+                      {%- else -%}
+                        {{ 'collection-1' | placeholder_svg_tag: 'media__placeholder' }}
+                      {%- endif -%}
+                    </div>
+                    {%- if section.settings.promo_heading != blank -%}
+                      <p class="megamenu__promo-title">{{ section.settings.promo_heading }}</p>
+                    {%- endif -%}
+                  </a>
+                {%- endif -%}
+              </div>
+            </div>
+          </div>
+        {%- else -%}
+          <a
+            class="header__nav-link"
+            href="{{ link.url }}"
+            {% if link.active %}aria-current="page"{% endif %}
+          >
+            {{ link.title }}
+          </a>
+        {%- endif -%}
+      {%- endfor -%}
+    </nav>
+
+    {%- liquid
+      assign logo_tag = 'div'
+      if request.page_type == 'index'
+        assign logo_tag = 'h1'
+      endif
+    -%}
+    <{{ logo_tag }} style="margin: 0;">
+      <a class="header__logo" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }}">
+        {%- if section.settings.logo -%}
+          {%- liquid
+            assign logo_alt = shop.name | escape
+            assign logo_sizes = section.settings.logo_width | append: 'px'
+            assign logo_style = 'width:' | append: section.settings.logo_width | append: 'px'
+          -%}
+          {{
+            section.settings.logo
+            | image_url: width: 600
+            | image_tag:
+              loading: 'eager',
+              widths: '150,225,300,450,600',
+              sizes: logo_sizes,
+              alt: logo_alt,
+              class: 'header__logo-image',
+              style: logo_style
+          }}
+        {%- else -%}
+          <span class="header__wordmark">{{ shop.name }}</span>
+        {%- endif -%}
+        {%- if settings.brand_established != blank -%}
+          <span class="header__established">{{ settings.brand_established }}</span>
+        {%- endif -%}
+      </a>
+    </{{ logo_tag }}>
+
+    <div class="header__utils">
+      {%- if settings.predictive_search -%}
+        <button class="header__util header__util--desktop" type="button" data-open="#SearchPanel">
+          {{ 'search.title_short' | t }}
+        </button>
+      {%- else -%}
+        <a class="header__util header__util--desktop" href="{{ routes.search_url }}">{{ 'search.title_short' | t }}</a>
+      {%- endif -%}
+
+      {%- for link in utility_menu.links limit: 2 -%}
+        <a class="header__util header__util--desktop" href="{{ link.url }}">{{ link.title }}</a>
+      {%- endfor -%}
+
+      {%- if settings.enable_wishlist and section.settings.wishlist_page != blank -%}
+        <a class="header__util header__util--desktop" href="{{ section.settings.wishlist_page.url }}">
+          {{ 'wishlist.title_short' | t }} (<wishlist-count>0</wishlist-count>)
+        </a>
+      {%- endif -%}
+
+      {%- if shop.customer_accounts_enabled -%}
+        <a class="header__util header__util--desktop no-prefetch" href="{{ routes.account_url }}">
+          {%- if customer -%}{{ 'customer.account.title_short' | t }}{%- else -%}{{ 'customer.login.title' | t }}{%- endif -%}
+        </a>
+      {%- endif -%}
+
+      {%- if settings.cart_drawer -%}
+        <button class="header__util header__util--emphasis" type="button" data-open="#CartDrawer" aria-controls="CartDrawer">
+          {{ 'cart.title_short' | t }} (<span data-cart-count>{{ cart.item_count }}</span>)
+        </button>
+      {%- else -%}
+        <a class="header__util header__util--emphasis no-prefetch" href="{{ routes.cart_url }}">
+          {{ 'cart.title_short' | t }} (<span data-cart-count>{{ cart.item_count }}</span>)
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</site-header>
+
+{%- comment -%} The small-screen drawer. Same links, one thumb away. {%- endcomment -%}
+<mobile-nav id="MobileNav" hidden>
+  <button class="overlay" type="button" data-overlay-close aria-label="{{ 'general.actions.close' | t }}"></button>
+  <aside class="drawer" style="left: 0; right: auto; animation-name: none;" role="dialog" aria-modal="true" aria-label="{{ 'general.navigation.primary' | t }}">
+    <div class="drawer__head">
+      <span class="drawer__title">{{ 'general.actions.menu' | t }}</span>
+      <button class="drawer__close" type="button" data-overlay-close data-autofocus>{{ 'general.actions.close' | t }}</button>
+    </div>
+
+    <div class="drawer__body">
+      <ul style="display: grid; gap: 4px; padding: 16px 0;">
+        {%- for link in menu.links -%}
+          <li>
+            {%- if link.links.size > 0 -%}
+              <button
+                class="plain-button"
+                type="button"
+                data-subnav-toggle
+                aria-expanded="false"
+                aria-controls="MobileSub-{{ forloop.index }}"
+                style="display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 14px 0; font-family: var(--font-display); font-size: 24px; text-align: left;"
+              >
+                {{ link.title }}
+                <span aria-hidden="true" style="font-size: 14px; color: var(--faint);">+</span>
+              </button>
+              <ul id="MobileSub-{{ forloop.index }}" hidden style="display: grid; gap: 12px; padding: 4px 0 18px 2px;">
+                {%- for child in link.links -%}
+                  <li>
+                    <a href="{{ child.url }}" style="font-size: 14px; color: var(--body);">{{ child.title }}</a>
+                  </li>
+                  {%- for grandchild in child.links -%}
+                    <li>
+                      <a href="{{ grandchild.url }}" style="font-size: 14px; color: var(--muted); padding-left: 14px; display: block;">
+                        {{ grandchild.title }}
+                      </a>
+                    </li>
+                  {%- endfor -%}
+                {%- endfor -%}
+              </ul>
+            {%- else -%}
+              <a href="{{ link.url }}" style="display: block; padding: 14px 0; font-family: var(--font-display); font-size: 24px;">
+                {{ link.title }}
+              </a>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+
+      <ul style="display: grid; gap: 14px; padding: 24px 0; border-top: 1px solid var(--rule);">
+        {%- if settings.predictive_search -%}
+          <li>
+            <button class="plain-button header__util" type="button" data-open="#SearchPanel">{{ 'search.title_short' | t }}</button>
+          </li>
+        {%- endif -%}
+        {%- for link in utility_menu.links -%}
+          <li><a class="header__util" href="{{ link.url }}">{{ link.title }}</a></li>
+        {%- endfor -%}
+        {%- if settings.enable_wishlist and section.settings.wishlist_page != blank -%}
+          <li>
+            <a class="header__util" href="{{ section.settings.wishlist_page.url }}">
+              {{ 'wishlist.title_short' | t }} (<wishlist-count>0</wishlist-count>)
+            </a>
+          </li>
+        {%- endif -%}
+        {%- if shop.customer_accounts_enabled -%}
+          <li>
+            <a class="header__util no-prefetch" href="{{ routes.account_url }}">
+              {%- if customer -%}{{ 'customer.account.title_short' | t }}{%- else -%}{{ 'customer.login.title' | t }}{%- endif -%}
+            </a>
+          </li>
+        {%- endif -%}
+      </ul>
+    </div>
+  </aside>
+</mobile-nav>
+
+{% schema %}
+{
+  "name": "t:sections.header.name",
+  "class": "header-section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "t:sections.header.logo"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "min": 60,
+      "max": 320,
+      "step": 10,
+      "unit": "px",
+      "label": "t:sections.header.logo_width",
+      "default": 180
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "t:sections.header.menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "link_list",
+      "id": "utility_menu",
+      "label": "t:sections.header.utility_menu",
+      "info": "t:sections.header.utility_menu_info"
+    },
+    {
+      "type": "page",
+      "id": "wishlist_page",
+      "label": "t:sections.header.wishlist_page",
+      "info": "t:sections.header.wishlist_page_info"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.header.megamenu_promo"
+    },
+    {
+      "type": "image_picker",
+      "id": "promo_image",
+      "label": "t:sections.header.promo_image"
+    },
+    {
+      "type": "text",
+      "id": "promo_heading",
+      "label": "t:sections.header.promo_heading",
+      "default": "Just arrived — the waxed cotton coats"
+    },
+    {
+      "type": "url",
+      "id": "promo_link",
+      "label": "t:sections.header.promo_link"
+    }
+  ]
+}
+{% endschema %}

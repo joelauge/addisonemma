@@ -1,0 +1,40 @@
+{
+  "type": "footer",
+  "name": "t:section_groups.footer",
+  "sections": {
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "kicker": "Correspondence",
+        "heading": "A letter from the valley, eight times a year",
+        "body": "<p>Collection notes, mill visits, and the occasional recipe. No offers, because we do not have any.</p>"
+      }
+    },
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "house": {
+          "type": "menu",
+          "settings": { "heading": "The house", "menu": "footer" }
+        },
+        "care": {
+          "type": "menu",
+          "settings": { "heading": "Care", "menu": "footer" }
+        },
+        "elsewhere": {
+          "type": "menu",
+          "settings": { "heading": "Elsewhere", "menu": "footer" }
+        }
+      },
+      "block_order": ["house", "care", "elsewhere"],
+      "settings": {
+        "address": "<p>14 rue des Tanneurs, Saint-Côme-d'Olt, Aveyron. Open Tuesday to Saturday, by appointment.</p>",
+        "telephone": "+33 5 65 44 00 12",
+        "show_payment_icons": true,
+        "show_locale_selector": true,
+        "locale_line": "France — English — EUR"
+      }
+    }
+  },
+  "order": ["newsletter", "footer"]
+}

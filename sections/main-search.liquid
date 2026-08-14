@@ -1,0 +1,100 @@
+{%- paginate search.results by section.settings.page_size -%}
+  <div class="page">
+    <header style="padding: 66px 0 26px; border-bottom: 1px solid var(--rule);">
+      <p class="kicker">{{ 'search.title' | t }}</p>
+      <h1 class="display display--l" style="margin-top: 18px;">
+        {%- if search.performed -%}
+          {{ 'search.results_for' | t: terms: search.terms }}
+        {%- else -%}
+          {{ 'search.heading' | t }}
+        {%- endif -%}
+      </h1>
+
+      <form action="{{ routes.search_url }}" method="get" role="search" style="margin-top: 26px; max-width: 560px;">
+        <input type="hidden" name="options[prefix]" value="last">
+        <label class="visually-hidden" for="SearchPageInput">{{ 'search.label' | t }}</label>
+        <div style="display: flex; border-bottom: 1px solid var(--rule-strong);">
+          <input
+            class="field__input"
+            id="SearchPageInput"
+            type="search"
+            name="q"
+            value="{{ search.terms | escape }}"
+            placeholder="{{ 'search.placeholder' | t }}"
+            style="border: 0;"
+          >
+          <button class="plain-button" type="submit" style="padding: 8px 2px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; white-space: nowrap;">
+            {{ 'search.submit' | t }}
+          </button>
+        </div>
+      </form>
+
+      {%- if search.performed -%}
+        <p class="collection-count" style="margin-top: 20px;">
+          {%- if search.results_count == 0 -%}
+            {{ 'search.no_results_for' | t: terms: search.terms }}
+          {%- elsif search.results_count == 1 -%}
+            {{ 'search.one_result' | t }}
+          {%- else -%}
+            {{ 'search.results_count' | t: count: search.results_count }}
+          {%- endif -%}
+        </p>
+      {%- endif -%}
+    </header>
+
+    {%- if search.performed and search.results_count > 0 -%}
+      <div class="product-grid product-grid--roomy" style="{% render 'grid-style', columns: section.settings.columns %} padding: 44px 0 60px;">
+        {%- for item in search.results -%}
+          {%- if item.object_type == 'product' -%}
+            {% render 'product-card', card_product: item, reveal: true, sizes: '(min-width: 990px) 25vw, 50vw' %}
+          {%- else -%}
+            <a class="journal-card" href="{{ item.url }}">
+              <div class="media media--4-3" data-reveal>
+                {%- if item.image -%}
+                                    {%- assign img_alt = item.title | escape -%}
+                  {{ item.image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '300,450,600,900', sizes: '(min-width: 990px) 25vw, 50vw', alt: img_alt, class: 'media__img' }}
+                {%- else -%}
+                  {{ 'lifestyle-2' | placeholder_svg_tag: 'media__placeholder' }}
+                {%- endif -%}
+              </div>
+              <p class="kicker kicker--faint journal-card__kicker">{{ item.object_type }}</p>
+              <p class="journal-card__title">{{ item.title }}</p>
+            </a>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+
+      {%- if paginate.pages > 1 -%}
+        {% render 'pagination', paginate: paginate %}
+      {%- endif -%}
+    {%- elsif search.performed -%}
+      <div class="collection-empty">
+        <p class="collection-empty__title">{{ 'search.no_results_title' | t }}</p>
+        <p class="prose" style="max-width: 440px; margin: 14px auto 0;">{{ 'search.no_results_body' | t }}</p>
+        <a class="link-rule" href="{{ routes.all_products_collection_url }}" style="margin-top: 26px;">
+          {{ 'collections.empty_cta' | t }}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+{%- endpaginate -%}
+
+{% schema %}
+{
+  "name": "t:sections.main_search.name",
+  "tag": "section",
+  "settings": [
+    { "type": "range", "id": "page_size", "min": 8, "max": 36, "step": 4, "label": "t:sections.main_search.page_size", "default": 16 },
+    {
+      "type": "select",
+      "id": "columns",
+      "label": "t:sections.common.columns",
+      "options": [
+        { "value": "3", "label": "3" },
+        { "value": "4", "label": "4" }
+      ],
+      "default": "4"
+    }
+  ]
+}
+{% endschema %}
