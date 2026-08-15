@@ -442,7 +442,7 @@
         "type": "text",
         "id": "brand_established",
         "label": "t:settings.brand.established",
-        "default": "Maison fond\u00e9e 1908"
+        "default": "Maison Fondée 2026"
       }
     ]
   }
