@@ -12,6 +12,7 @@
  */
 
 import fs from 'node:fs';
+import crypto from 'node:crypto';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { Liquid } from 'liquidjs';
@@ -95,6 +96,16 @@ const dateFormats = locale.date_formats || {};
 /* --- Store -------------------------------------------------------------- */
 
 const store = buildStore(BASE);
+
+/**
+ * Content hashes for /assets, so a deploy never serves a stale stylesheet.
+ * Shopify's own `asset_url` does this; the harness has to do it by hand.
+ */
+const assetVersions = {};
+for (const file of fs.readdirSync(path.join(THEME, 'assets'))) {
+  const bytes = fs.readFileSync(path.join(THEME, 'assets', file));
+  assetVersions[file] = crypto.createHash('sha1').update(bytes).digest('hex').slice(0, 10);
+}
 
 const shop = {
   name: 'Addison Emma',
@@ -210,7 +221,7 @@ const engine = new Liquid({
   greedy: false
 });
 
-registerFilters(engine, { locale, shop, dateFormats });
+registerFilters(engine, { locale, shop, dateFormats, assetVersions });
 
 /** Section settings: schema defaults, then whatever the JSON template says. */
 function defaultsFor(list = []) {

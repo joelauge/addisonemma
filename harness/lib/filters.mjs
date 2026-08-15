@@ -222,9 +222,15 @@ export function payment_button() {
 
 /* --- Registration ------------------------------------------------------- */
 
-export function registerFilters(engine, { locale, shop, dateFormats }) {
+export function registerFilters(engine, { locale, shop, dateFormats, assetVersions = {} }) {
   const t = makeTranslate(locale);
   const money = makeMoney(shop);
+
+  /* A content hash per asset, so a new deploy is never served from cache. */
+  const assetUrl = (name) => {
+    const version = assetVersions[name];
+    return `${shop.assetBase}${name}${version ? `?v=${version}` : ''}`;
+  };
 
   const table = {
     t,
@@ -243,9 +249,9 @@ export function registerFilters(engine, { locale, shop, dateFormats }) {
     payment_button,
     handle: handleize,
     handleize,
-    asset_url: (name) => `${shop.assetBase}${name}`,
-    file_url: (name) => `${shop.assetBase}${name}`,
-    global_asset_url: (name) => `${shop.assetBase}${name}`,
+    asset_url: assetUrl,
+    file_url: assetUrl,
+    global_asset_url: assetUrl,
     stylesheet_tag: (url) => `<link rel="stylesheet" href="${esc(url)}">`,
     script_tag: (url) => `<script src="${esc(url)}" defer></script>`,
     within: (url) => url,

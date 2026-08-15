@@ -531,7 +531,7 @@ main:focus {
   top: 0;
   background: var(--paper-veil);
   backdrop-filter: saturate(140%) blur(12px);
-  border-bottom: 1px solid var(--rule);
+  border-bottom: var(--header-border) solid var(--rule);
 }
 
 .header__bar {
@@ -648,9 +648,18 @@ main:focus {
 
 /* --- Mega menu ------------------------------------------------------------ */
 
-/* A sibling of the bar, in normal flow — the design's structure. Opening the
-   menu grows the sticky header rather than overlaying it. */
+/* The panel overlays the page instead of sitting in flow. In flow it grew the
+   sticky header and pushed every section down as it opened, which reads as the
+   page jumping. Absolute keeps the header at its own height and lays the panel
+   over the content — nothing below it moves.
+   `top` clears the header's bottom hairline: an absolutely positioned box is
+   placed against its containing block's PADDING box, which excludes that
+   border, so 100% alone would overlap it by exactly its width. */
 .megamenu {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + var(--header-border));
   border-top: 1px solid var(--rule-soft);
   background: var(--paper);
   padding: 44px var(--gutter);
