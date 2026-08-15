@@ -549,7 +549,12 @@ main:focus {
   white-space: nowrap;
 }
 
+/* `display: block` is load-bearing. Links with a mega menu sit inside a
+   [data-menu] wrapper, so they are not flex items and would stay inline —
+   and vertical padding on an inline box paints outside the line box instead
+   of growing it, lifting that one link 3px above its neighbours. */
 .header__nav-link {
+  display: block;
   padding: 8px 0;
   border-bottom: 1px solid transparent;
   color: var(--brand);
@@ -643,6 +648,8 @@ main:focus {
 
 /* --- Mega menu ------------------------------------------------------------ */
 
+/* A sibling of the bar, in normal flow — the design's structure. Opening the
+   menu grows the sticky header rather than overlaying it. */
 .megamenu {
   border-top: 1px solid var(--rule-soft);
   background: var(--paper);

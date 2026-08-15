@@ -19,61 +19,18 @@
     <nav class="header__nav" aria-label="{{ 'general.navigation.primary' | t }}">
       {%- for link in menu.links -%}
         {%- if link.links.size > 0 -%}
-          <div data-menu>
-            <a
-              class="header__nav-link"
-              href="{{ link.url }}"
-              data-menu-trigger
-              aria-expanded="false"
-              aria-haspopup="true"
-              aria-controls="MegaMenu-{{ forloop.index }}"
-              {% if link.active or link.child_active %}aria-current="page"{% endif %}
-            >
-              {{ link.title }}
-            </a>
+          <a
+            class="header__nav-link"
+            href="{{ link.url }}"
+            data-menu-trigger
+            aria-expanded="false"
+            aria-haspopup="true"
+            aria-controls="MegaMenu-{{ forloop.index }}"
+            {% if link.active or link.child_active %}aria-current="page"{% endif %}
+          >
+            {{ link.title }}
+          </a>
 
-            <div class="megamenu" id="MegaMenu-{{ forloop.index }}" data-menu-panel hidden>
-              <div class="megamenu__grid">
-                {%- for child in link.links limit: 3 -%}
-                  <div class="megamenu__column">
-                    <p class="megamenu__heading">{{ child.title }}</p>
-                    {%- if child.links.size > 0 -%}
-                      {%- for grandchild in child.links -%}
-                        <a class="megamenu__link" href="{{ grandchild.url }}">{{ grandchild.title }}</a>
-                      {%- endfor -%}
-                    {%- else -%}
-                      <a class="megamenu__link" href="{{ child.url }}">{{ 'general.navigation.view_all' | t }}</a>
-                    {%- endif -%}
-                  </div>
-                {%- endfor -%}
-
-                {%- if section.settings.promo_image or section.settings.promo_heading != blank -%}
-                  <a class="megamenu__promo" href="{{ section.settings.promo_link | default: link.url }}">
-                    <div class="media media--4-3">
-                      {%- if section.settings.promo_image -%}
-                                                {%- assign img_alt = section.settings.promo_heading | escape -%}
-                        {{
-                          section.settings.promo_image
-                          | image_url: width: 900
-                          | image_tag:
-                            loading: 'lazy',
-                            widths: '300,450,600,900',
-                            sizes: '(min-width: 990px) 24vw, 90vw',
-                            alt: img_alt,
-                            class: 'media__img'
-                        }}
-                      {%- else -%}
-                        {{ 'collection-1' | placeholder_svg_tag: 'media__placeholder' }}
-                      {%- endif -%}
-                    </div>
-                    {%- if section.settings.promo_heading != blank -%}
-                      <p class="megamenu__promo-title">{{ section.settings.promo_heading }}</p>
-                    {%- endif -%}
-                  </a>
-                {%- endif -%}
-              </div>
-            </div>
-          </div>
         {%- else -%}
           <a
             class="header__nav-link"
@@ -156,6 +113,57 @@
       {%- endif -%}
     </div>
   </div>
+
+    {%- comment -%}
+      The panels sit beneath the bar, as siblings — the design's structure.
+      Nesting them in the nav made them flex items and turned their trigger
+      into an inline box, which mis-aligned that one link by 3px.
+    {%- endcomment -%}
+    {%- for link in menu.links -%}
+      {%- if link.links.size > 0 -%}
+          <div class="megamenu" id="MegaMenu-{{ forloop.index }}" data-menu-panel hidden>
+            <div class="megamenu__grid">
+              {%- for child in link.links limit: 3 -%}
+                <div class="megamenu__column">
+                  <p class="megamenu__heading">{{ child.title }}</p>
+                  {%- if child.links.size > 0 -%}
+                    {%- for grandchild in child.links -%}
+                      <a class="megamenu__link" href="{{ grandchild.url }}">{{ grandchild.title }}</a>
+                    {%- endfor -%}
+                  {%- else -%}
+                    <a class="megamenu__link" href="{{ child.url }}">{{ 'general.navigation.view_all' | t }}</a>
+                  {%- endif -%}
+                </div>
+              {%- endfor -%}
+
+              {%- if section.settings.promo_image or section.settings.promo_heading != blank -%}
+                <a class="megamenu__promo" href="{{ section.settings.promo_link | default: link.url }}">
+                  <div class="media media--4-3">
+                    {%- if section.settings.promo_image -%}
+                                              {%- assign img_alt = section.settings.promo_heading | escape -%}
+                      {{
+                        section.settings.promo_image
+                        | image_url: width: 900
+                        | image_tag:
+                          loading: 'lazy',
+                          widths: '300,450,600,900',
+                          sizes: '(min-width: 990px) 24vw, 90vw',
+                          alt: img_alt,
+                          class: 'media__img'
+                      }}
+                    {%- else -%}
+                      {{ 'collection-1' | placeholder_svg_tag: 'media__placeholder' }}
+                    {%- endif -%}
+                  </div>
+                  {%- if section.settings.promo_heading != blank -%}
+                    <p class="megamenu__promo-title">{{ section.settings.promo_heading }}</p>
+                  {%- endif -%}
+                </a>
+              {%- endif -%}
+            </div>
+          </div>
+      {%- endif -%}
+    {%- endfor -%}
 </site-header>
 
 {%- comment -%} The small-screen drawer. Same links, one thumb away. {%- endcomment -%}

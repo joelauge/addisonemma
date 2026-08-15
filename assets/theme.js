@@ -899,18 +899,17 @@
 
   class SiteHeader extends HTMLElement {
     connectedCallback() {
-      this.menus = $$('[data-menu]', this);
       this.closeTimer = null;
+      this.triggers = $$('[data-menu-trigger]', this);
 
-      this.menus.forEach((wrapper) => {
-        const trigger = wrapper.querySelector('[data-menu-trigger]');
-        const panel = wrapper.querySelector('[data-menu-panel]');
-        if (!trigger || !panel) return;
+      this.triggers.forEach((trigger) => {
+        const panel = this.panelFor(trigger);
+        if (!panel) return;
 
         const open = () => {
           clearTimeout(this.closeTimer);
-          this.menus.forEach((other) => {
-            if (other !== wrapper) this.closePanel(other);
+          this.triggers.forEach((other) => {
+            if (other !== trigger) this.closePanel(other);
           });
           trigger.setAttribute('aria-expanded', 'true');
           panel.hidden = false;
@@ -918,39 +917,54 @@
 
         const scheduleClose = () => {
           clearTimeout(this.closeTimer);
-          this.closeTimer = setTimeout(() => this.closePanel(wrapper), 160);
+          this.closeTimer = setTimeout(() => this.closePanel(trigger), 160);
         };
 
-        wrapper.addEventListener('mouseenter', open);
-        wrapper.addEventListener('mouseleave', scheduleClose);
+        trigger.addEventListener('mouseenter', open);
         trigger.addEventListener('focus', open);
+        trigger.addEventListener('mouseleave', scheduleClose);
+
+        /* Touch and keyboard: the first tap opens rather than navigates. */
         trigger.addEventListener('click', (event) => {
-          /* Touch and keyboard: the first tap opens rather than navigates. */
           if (panel.hidden) {
             event.preventDefault();
             open();
           }
         });
+
         panel.addEventListener('mouseenter', () => clearTimeout(this.closeTimer));
         panel.addEventListener('mouseleave', scheduleClose);
-        wrapper.addEventListener('focusout', (event) => {
-          if (!wrapper.contains(event.relatedTarget)) this.closePanel(wrapper);
-        });
+      });
+
+      /* Leaving the header at all closes whatever is open. */
+      this.addEventListener('mouseleave', () => {
+        clearTimeout(this.closeTimer);
+        this.closeTimer = setTimeout(() => this.closeAll(), 160);
+      });
+
+      this.addEventListener('focusout', (event) => {
+        if (!this.contains(event.relatedTarget)) this.closeAll();
       });
 
       this.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape') {
-          this.menus.forEach((wrapper) => this.closePanel(wrapper));
-        }
+        if (event.key === 'Escape') this.closeAll();
       });
     }
 
-    closePanel(wrapper) {
-      const trigger = wrapper.querySelector('[data-menu-trigger]');
-      const panel = wrapper.querySelector('[data-menu-panel]');
-      if (!trigger || !panel) return;
+    panelFor(trigger) {
+      const id = trigger.getAttribute('aria-controls');
+      return id ? this.querySelector(`#${id}`) : null;
+    }
+
+    closePanel(trigger) {
+      const panel = this.panelFor(trigger);
+      if (!panel) return;
       trigger.setAttribute('aria-expanded', 'false');
       panel.hidden = true;
+    }
+
+    closeAll() {
+      this.triggers.forEach((trigger) => this.closePanel(trigger));
     }
   }
   customElements.define('site-header', SiteHeader);
